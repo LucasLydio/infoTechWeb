@@ -1,0 +1,89 @@
+<section class="nf">
+  <header class="hero">
+    <div class="hero__left">
+      <h1>
+        Notícias da <span class="accent">Info Tech GO</span>
+      </h1>
+      <h2 class="subtitle">
+        Conecte-se, compartilhe conhecimento e acompanhe discussões relevantes.
+      </h2>
+    </div>
+
+    <div class="hero__right">
+      <app-card class="heroCard" id="heroCard2">
+        <div class="heroCard__title">
+          <strong> Notícias da <span class="accent">Info Tech GO</span></strong>
+        </div>
+        <p class="heroCard__text">
+          Conecte-se, compartilhe conhecimento e acompanhe discussões relevantes.
+        </p>
+      </app-card>
+      <div class="heroCard__img">
+        <img src="/assets/img/infoForum12.png" alt="forum">
+      </div>
+    </div>
+  </header>
+
+  <!-- Toolbar -->
+  <app-news-toolbar
+    [searchCtrl]="searchCtrl"
+    [sortCtrl]="sortCtrl"
+    (refresh)="refresh()"
+  ></app-news-toolbar>
+
+  <div class="nf__grid">
+    <!-- Feed -->
+    <main class="nf__feed">
+      <div *ngIf="loading" class="nf__loading">
+        <app-skeleton *ngFor="let s of [1,2,3,4,5]"></app-skeleton>
+      </div>
+
+      <div *ngIf="!loading && errorMsg" class="nf__empty">
+        <div class="icon"><i class="bi bi-exclamation-triangle"></i></div>
+        <h3>Ops…</h3>
+        <p>{{ errorMsg }}</p>
+        <app-button variant="outline" size="sm" (click)="refresh()">Tentar novamente</app-button>
+      </div>
+
+      <div *ngIf="!loading && !errorMsg && !hasResults()" class="nf__empty">
+        <div class="icon"><i class="bi bi-newspaper"></i></div>
+        <h3>Nenhuma notícia encontrada</h3>
+        <p>Tente ajustar a busca ou publique a primeira atualização.</p>
+        <app-button variant="primary" size="sm" routerLink="/news/new">
+          <i class="bi bi-plus-circle"></i> Publicar notícia
+        </app-button>
+      </div>
+
+      <div class="nf__list" *ngIf="!loading && !errorMsg && hasResults()">
+        <app-news-item
+          *ngFor="let n of view; trackBy: trackById"
+          [news]="n"
+          (open)="open(n)"
+          (like)="like(n, $event)"
+        ></app-news-item>
+      </div>
+
+      <nav class="nf__pager" *ngIf="!loading && totalPages > 1">
+        <app-button variant="outline" size="sm" (click)="prevPage()" [disabled]="page === 1">
+          <i class="bi bi-chevron-left"></i>
+        </app-button>
+        <span class="nf__pagerLabel">Página <strong>{{ page }}</strong> / {{ totalPages }}</span>
+        <app-button variant="outline" size="sm" (click)="nextPage()" [disabled]="page === totalPages">
+          <i class="bi bi-chevron-right"></i>
+        </app-button>
+      </nav>
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="nf__side">
+      <app-news-highlights [items]="news"></app-news-highlights>
+
+      <app-card class="tipCard">
+        <h3 class=" ">Boas práticas</h3>
+        <p class=" ">
+          Prefira títulos claros. Explique impacto e próximos passos. Evite dados sensíveis.
+        </p>
+      </app-card>
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,14 @@
+.spinner {
+  display: inline-block;
+  border: 3px solid #f4f7f6; // $bg-light
+  border-top: 3px solid #006c70; // $primary
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  animation: spin 0.85s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}

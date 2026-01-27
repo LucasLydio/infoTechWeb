@@ -1,0 +1,24 @@
+<nav class="mobile-menu">
+  <button
+    class="mobile-item"
+    *ngFor="let m of menus"
+    (click)="openSheet(m)"
+  >
+    <i [class]="m.icon"></i>
+    <span>{{ m.label }}</span>
+  </button>
+</nav>
+
+<!-- Sheet -->
+<div class="mobile-sheet" [class.open]="activeMenu">
+  <div class="sheet-header">
+    <span>{{ activeMenu?.label }}</span>
+    <button (click)="closeSheet()">✕</button>
+  </div>
+
+  <ul class="sheet-options">
+    <li *ngFor="let item of activeMenu?.items">
+      <a href="#">{{ item }}</a>
+    </li>
+  </ul>
+</div>

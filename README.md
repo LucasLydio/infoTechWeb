@@ -1,27 +1,101 @@
-# MwForum
+# infoTechWeb
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.1.
+infoTechWeb is a modern, responsive web application for online discussions, built with Angular. It provides a clean, minimalist interface for users to create topics, post replies, send messages, and interact in a tech-focused community.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- User authentication (login/register)
+- Create, view, and reply to topics
+- Messaging system (inbox, send)
+- News and announcements
+- User profiles and avatars
+- Responsive design (mobile & desktop)
+- Modular architecture for easy feature expansion
+- Theming support (light/dark)
 
-## Code scaffolding
+## Technologies Used
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Angular 18+
+- TypeScript
+- SCSS (glassmorphism & minimalist styles)
+- RxJS
+- Angular Router
+- RESTful API integration
 
-## Build
+## Getting Started
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Prerequisites
 
-## Running unit tests
+- Node.js (v18 or higher recommended)
+- npm (v9 or higher)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Installation
 
-## Running end-to-end tests
+Clone the repository and install dependencies:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+git clone https://github.com/your-username/forum-frontend.git
+cd forum-frontend
+npm install
+```
 
-## Further help
+### Development Server
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Start the development server:
+
+```bash
+ng serve
+```
+
+Navigate to [http://localhost:4200](http://localhost:4200). The app will reload automatically on code changes.
+
+### Build
+
+To build the project for production:
+
+```bash
+ng build
+```
+
+The build artifacts will be stored in the `dist/` directory.
+
+### Testing
+
+Run unit tests:
+
+```bash
+ng test
+```
+
+Run end-to-end tests:
+
+```bash
+ng e2e
+```
+
+## Project Structure
+
+```
+src/
+	app/
+		core/         # Core modules, guards, interceptors, services
+		features/     # Feature modules (auth, menu, messages, news, profile, replies, topics)
+		shared/       # Shared components and models
+	assets/         # Images and other assets
+	environments/   # Environment configs
+	theme/          # SCSS theme files
+```
+
+## Contributing
+
+Contributions are welcome! Please open issues or submit pull requests for improvements and new features.
+
+## License
+
+This project is licensed under the MIT License.
+
+## Acknowledgements
+
+- [Angular CLI](https://angular.dev/tools/cli)
+- [Karma](https://karma-runner.github.io)
+- [RxJS](https://rxjs.dev)

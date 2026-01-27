@@ -1,0 +1,52 @@
+<nav class="sidebar" >
+  <ul class="menu">
+
+    <li
+      class="menu-item"
+      *ngFor="let m of menus; let i = index"
+      (mouseenter)="openMenu(i)"
+      (mouseleave)="closeMenu(i)"
+    >
+
+      <i [class]="m.icon + ' my-3'"></i>
+
+      <!-- Submenu -->
+      <ul class="submenu" [class.open]="activeIndex === i">
+        <div class="options">
+          <span class="label">{{ m.label }}</span>
+          <li *ngFor="let item of m.items">
+            <a href="" class="text-decoration-none">
+            {{ item }}
+            </a>
+          </li>
+        </div>
+      </ul>
+
+    </li>
+    <ng-container *ngIf="isLoggedIn; else login">
+      <li class="profile-actions">
+        <div>
+          <a class="btn-group fs-5 profile" routerLink="/profile/me" title="Meu Perfil">
+            <i class="bi bi-person-circle"></i>
+          </a>
+        </div>
+
+        <div>
+          <a class="fs-6 logout" (click)="logout()" title="Sair">
+            <i class="bi bi-door-open my-3"></i>
+          </a>
+        </div>
+      </li>
+    </ng-container>
+
+    <ng-template #login>
+      <li class="profile-actions">
+        <a class="btn-group fs-5 profile" routerLink="/auth/login" title="Entrar">
+          <i class="bi bi-box-arrow-in-right"></i>
+        </a>
+      </li>
+    </ng-template>
+
+
+  </ul>
+</nav>

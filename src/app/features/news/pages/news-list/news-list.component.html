@@ -1,0 +1,72 @@
+<section class="nl">
+  <header class="nl__hero">
+    <div class="nl__heroText">
+      <span class="pill"><i class="bi bi-megaphone"></i> Updates</span>
+      <h1>Notícias da Comunidade</h1>
+      <p class=" ">Feed para devs acompanharem mudanças, anúncios e o que está rolando.</p>
+    </div>
+
+    <app-button variant="primary" size="md" routerLink="/news/new">
+      <i class="bi bi-plus-circle"></i> Publicar
+    </app-button>
+  </header>
+
+  <!-- Usa seus componentes da arquitetura -->
+  <app-news-toolbar
+    [searchCtrl]="searchCtrl"
+    [sortCtrl]="sortCtrl"
+    (refresh)="refresh()"
+  ></app-news-toolbar>
+
+  <div class="nl__grid">
+    <main class="nl__feed">
+      <div *ngIf="loading" class="nl__loading">
+        <app-skeleton *ngFor="let s of [1,2,3,4,5]"></app-skeleton>
+      </div>
+
+      <div *ngIf="!loading && errorMsg" class="nl__empty">
+        <div class="icon"><i class="bi bi-exclamation-triangle"></i></div>
+        <h3>Ops…</h3>
+        <p>{{ errorMsg }}</p>
+        <app-button variant="outline" size="sm" (click)="refresh()">Tentar novamente</app-button>
+      </div>
+
+      <div *ngIf="!loading && !errorMsg && !hasResults()" class="nl__empty">
+        <div class="icon"><i class="bi bi-newspaper"></i></div>
+        <h3>Nenhuma notícia encontrada</h3>
+        <p>Publique a primeira atualização para a comunidade.</p>
+        <app-button variant="primary" size="sm" routerLink="/news/new">
+          <i class="bi bi-plus-circle"></i> Publicar notícia
+        </app-button>
+      </div>
+
+      <div class="nl__list" *ngIf="!loading && !errorMsg && hasResults()">
+        <app-news-item
+          *ngFor="let n of view; trackBy: trackById"
+          [news]="n"
+          (open)="open(n)"
+          (like)="like(n, $event)"
+        ></app-news-item>
+      </div>
+
+      <nav class="nl__pager" *ngIf="!loading && totalPages > 1">
+        <app-button variant="outline" size="sm" (click)="prevPage()" [disabled]="page === 1">
+          <i class="bi bi-chevron-left"></i>
+        </app-button>
+        <span class="nl__pagerLabel">Página <strong>{{ page }}</strong> / {{ totalPages }}</span>
+        <app-button variant="outline" size="sm" (click)="nextPage()" [disabled]="page === totalPages">
+          <i class="bi bi-chevron-right"></i>
+        </app-button>
+      </nav>
+    </main>
+
+    <aside class="nl__side">
+      <app-news-highlights [items]="news"></app-news-highlights>
+
+      <app-card class="tipCard">
+        <h3>Como escrever bem</h3>
+        <p class=" ">Explique impacto, status, próximos passos. Títulos claros ajudam a comunidade.</p>
+      </app-card>
+    </aside>
+  </div>
+</section>

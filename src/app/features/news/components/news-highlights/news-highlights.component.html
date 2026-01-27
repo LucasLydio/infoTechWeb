@@ -1,0 +1,20 @@
+<app-card class="hl">
+  <div class="hl__head">
+    <h3 class=" ">Highlights</h3>
+    <span class=" ">Em alta agora</span>
+  </div>
+
+  <div class="hl__list" *ngIf="top().length > 0; else empty">
+    <button class="hl__row" type="button" *ngFor="let n of top()" (click)="open(n)">
+      <div class="hl__title">{{ n.title }}</div>
+      <div class="hl__meta">
+        <span><i class="bi bi-heart"></i> {{ n.like }}</span>
+        <span><i class="bi bi-eye"></i> {{ n.view }}</span>
+      </div>
+    </button>
+  </div>
+
+  <ng-template #empty>
+    <p class=" ">Sem destaques ainda.</p>
+  </ng-template>
+</app-card>

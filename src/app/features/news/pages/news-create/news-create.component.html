@@ -1,0 +1,73 @@
+<section class="nc">
+  <header class="nc__head">
+    <div>
+      <h1>Publicar notícia</h1>
+      <p class=" ">Compartilhe uma atualização importante para a comunidade.</p>
+    </div>
+
+    <app-button variant="outline" size="md" routerLink="/news">
+      <i class="bi bi-arrow-left"></i> Voltar
+    </app-button>
+  </header>
+
+  <div class="nc__grid">
+    <app-card class="nc__formCard">
+      <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+        <div class="field">
+          <label>Título</label>
+          <input class="input" formControlName="title" placeholder="Ex: Nova feature no fórum: reactions" />
+          <div class="meta">
+            <span class="err" *ngIf="titleCtrl?.touched && titleCtrl?.invalid">Título inválido.</span>
+            <span class="count">{{ titleLen() }}/90</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Conteúdo</label>
+          <textarea class="textarea" rows="10" formControlName="body" placeholder="Explique contexto, impacto e próximos passos…"></textarea>
+          <div class="meta">
+            <span class="err" *ngIf="bodyCtrl?.touched && bodyCtrl?.invalid">Conteúdo inválido.</span>
+            <span class="count">{{ bodyLen() }}/4000</span>
+          </div>
+        </div>
+
+        <div class="status">
+          <span class="ok" *ngIf="okMsg"><i class="bi bi-check2-circle"></i> {{ okMsg }}</span>
+          <span class="err" *ngIf="errorMsg"><i class="bi bi-exclamation-circle"></i> {{ errorMsg }}</span>
+        </div>
+
+        <div class="actions">
+          <app-button variant="outline" size="md" type="button" routerLink="/news" [disabled]="loading">
+            Cancelar
+          </app-button>
+
+          <app-button variant="primary" size="md" type="submit" [loading]="loading" [disabled]="loading || form.invalid">
+            <i class="bi bi-send"></i> Publicar
+          </app-button>
+        </div>
+      </form>
+    </app-card>
+
+    <app-card class="nc__preview">
+      <div class="previewHead">
+        <h2>Preview</h2>
+        <span class="pill"><i class="bi bi-eye"></i> como a comunidade verá</span>
+      </div>
+
+      <div class="previewCard">
+        <div class="top">
+          <span class="tag"><i class="bi bi-newspaper"></i> News</span>
+          <span class=" ">agora</span>
+        </div>
+
+        <h3>{{ previewTitle() }}</h3>
+        <p>{{ previewBody() }}</p>
+
+        <div class="foot  ">
+          <span><i class="bi bi-eye"></i> 0</span>
+          <span><i class="bi bi-heart"></i> 0</span>
+        </div>
+      </div>
+    </app-card>
+  </div>
+</section>

@@ -1,0 +1,35 @@
+@use '../../../../theme/theme' as *;
+
+$primary:      #006c70;
+$accent:       #f4b313;
+$bg-light:     #f4f7f6;
+$text-muted:   #6c757d;
+
+$shadow-soft: 0 2px 12px 0 rgba(0, 108, 112, 0.05), 0 1.5px 10px 0 rgba(0,0,0,0.04);
+$radius-lg: 1.5rem;
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: $bg-light;
+  border-radius: 50%;
+  overflow: hidden;
+  font-weight: 700;
+  color: $primary;
+  box-shadow: 0 1.5px 8px 0 rgba(0,108,112,0.07);
+  border: 2px solid $primary;
+  user-select: none;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  span {
+    line-height: 1;
+    letter-spacing: .5px;
+  }
+}

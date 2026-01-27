@@ -1,0 +1,100 @@
+@use '../../../../theme/theme' as *;
+
+.register-page {
+  min-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // background: $bg-light;
+
+  .register-card {
+    padding: 2.2rem 1.7rem;
+    min-width: 340px;
+
+    h2 {
+      color: $primary;
+      font-size: 1.5rem;
+      margin-bottom: 1.4rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+
+        label {
+          font-weight: 600;
+          color: $primary;
+          font-size: 1rem;
+        }
+
+        .form-input {
+          font-size: 1rem;
+          border: 1.5px solid #dae8e8;
+          border-radius: 1rem;
+          padding: 10px 13px;
+          background: $bg-light;
+          transition: border .18s;
+
+          &:focus {
+            border: 1.7px solid $accent;
+          }
+
+          &.invalid {
+            border: 1.5px solid #f67c7c;
+          }
+        }
+
+        .form-error {
+          color: #f67c7c;
+          font-size: .97rem;
+          margin-bottom: 0;
+        }
+      }
+
+      .btn {
+        margin-top: 6px;
+        background: $accent;
+        color: #fff;
+        border: none;
+        border-radius: 1rem;
+        font-weight: 600;
+        padding: 0.7rem 1.5rem;
+        cursor: pointer;
+        transition: background 0.18s;
+
+        &:disabled {
+          opacity: .8;
+          cursor: not-allowed;
+        }
+
+        &:hover:enabled {
+          background: darken($accent, 9%);
+        }
+      }
+
+      .login-link {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 1rem;
+        color: $text-muted;
+
+        a {
+          color: $primary;
+          font-weight: 600;
+        }
+      }
+
+      .general-error {
+        text-align: center;
+      }
+    }
+  }
+}

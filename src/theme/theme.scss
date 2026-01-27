@@ -1,0 +1,80 @@
+
+// src/theme/theme.scss
+
+$text-muted:   #6c757d;
+$text: #e9eef1;
+
+$bg-card: #ffffff55;
+$card: #ffffff4f;
+$card-darken: #8d8d8d15;
+$card-color-darken: #0909098a;
+$border-color: rgba(53, 52, 52, 0.12);
+$padding-inline: .75rem;
+
+$bg-light-primary:   #f4f7f6;
+$bg-light-secondary: #eef1f1;
+$bg-light-soft:      #e8ecec;
+$bg-light-ice:       #fafafa;
+$bg-light-alt:       #f8f9fa;
+
+$card-color-darken: #7776768a;
+
+$light-gray-warm:  #e5e2df;
+$light-gray-cool:  #d9e0e2;
+$light-gray-neutral: #cfd7da;
+
+// Aproved
+
+$accent-dark: #383325;
+$primary: #006c70;
+$accent: #f4b313;
+$muted:   #6c757d;
+$primary-hover: rgba($primary, .18);
+$accent-hover: rgba($accent, .18);
+$border-color-accent: rgba($accent-dark, .25);
+
+$shadow-soft: 0 2px 12px 0 rgba(0, 108, 112, 0.05), 0 1.5px 10px 0 rgba(0,0,0,0.04);
+$shadow-soft-white: 0 2px 12px 0 rgba(0, 108, 112, 0.05), 0 1.5px 8px 0 rgb(255, 255, 255);
+$radius-lg: .5rem;
+ $radius-pill: 999px;
+$bg-light:     #f2f2f2;
+$bg-white: white;
+$dark-sand: black;
+$dark-light-sand: rgba(0, 0, 0, 0.815);
+
+:root {
+  --bg-light:#f2f2f2;
+  --bg-white: white;
+  --bg-light-dark: rgba(168, 165, 165, 0.07);
+  --bg-lightness: rgba(134, 132, 132, 0.07);
+  --bg-green: #148387b0;
+
+  --accent: #f4b313;
+  --accent-dark: #383325;
+  --primary: #006c70;
+  --primary-dark: #014d53;
+  --color-text: black;
+  --color-text-light: rgba(0, 0, 0, 0.815);
+  --text-card-green: #f2f2f2;
+  --text-light-card-green: #f2f2f2b8;
+
+  --color-icon: #006c70;
+
+  --border-color: rgba(53, 52, 52, 0.12);
+  --border-color-accent: color-mix(in srgb, var(--accent-dark) 18%, transparent);
+
+  --primary-hover: rgba(4, 137, 142, 0.351);
+  --accent-hover: color-mix(in srgb, var(--accent) 18%, transparent);
+
+  --shadow-soft: 0 2px 12px 0 rgba(0, 108, 112, 0.05), 0 1.5px 10px 0 rgba(0,0,0,0.04);
+  --shadow-soft-white: 0 2px 12px 0 rgba(0, 108, 112, 0.05), 0 1.5px 8px 0 rgb(255, 255, 255);
+  --shadow-lg: 0 2px 12px 0 rgba(0, 108, 112, 0.05), 0 1.5px 12px 0 rgba(0, 0, 0, 0.284);
+
+  --border-md: 18px;
+  --radius-lg: .5rem;
+  --radius-pill: 999px;
+  --padding: .75rem;
+  --padding-md: 1.25rem;
+  --padding-lg: 1.55rem;
+}
+

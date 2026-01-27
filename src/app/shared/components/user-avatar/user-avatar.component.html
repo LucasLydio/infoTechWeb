@@ -1,0 +1,9 @@
+<div class="avatar"
+     [ngStyle]="{ width: size + 'px', height: size + 'px', fontSize: (size/2.1) + 'px' }">
+  <ng-container *ngIf="src; else initialsTpl">
+    <img [src]="src" alt="Avatar" (error)="src=null" />
+  </ng-container>
+  <ng-template #initialsTpl>
+    <span>{{ initials }}</span>
+  </ng-template>
+</div>

@@ -1,0 +1,21 @@
+<app-card class="ni" (click)="open.emit()">
+  <div class="ni__top">
+    <span class="ni__tag"><i class="bi bi-newspaper"></i> News</span>
+    <span class="ni__date">{{ news.created_at | date:'dd/MM • HH:mm' }}</span>
+  </div>
+
+  <h2 class="ni__title">{{ news.title }}</h2>
+  <p class="ni__body">{{ preview() }}</p>
+
+  <div class="ni__footer">
+    <div class="stats">
+      <span class="stat"><i class="bi bi-eye"></i> {{ news.view }}</span>
+      <span class="stat"><i class="bi bi-heart"></i> {{ news.like }}</span>
+    </div>
+
+    <button class="likeBtn" type="button" (click)="like.emit($event)">
+      <i class="bi bi-heart-fill"></i>
+      Curtir
+    </button>
+  </div>
+</app-card>

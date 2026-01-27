@@ -1,0 +1,17 @@
+<div class="input-group">
+  <label *ngIf="label" class="input-label">
+    {{ label }} <span *ngIf="required" class="req">*</span>
+  </label>
+  <input
+    [type]="type"
+    class="form-input"
+    [placeholder]="placeholder"
+    [attr.maxLength]="maxLength"
+    [disabled]="disabled"
+    [value]="value"
+    (input)="handleInput($event)"
+    (blur)="onTouched()"
+    [class.invalid]="errorMsg"
+  />
+  <div class="error" *ngIf="errorMsg">{{ errorMsg }}</div>
+</div>

@@ -1,0 +1,25 @@
+<button
+  class="btn"
+  [class.btn--primary]="variant === 'primary'"
+  [class.btn--outline]="variant === 'outline'"
+  [class.btn--ghost]="variant === 'ghost'"
+  [class.btn--danger]="variant === 'danger'"
+  [class.btn--sm]="size === 'sm'"
+  [class.btn--md]="size === 'md'"
+  [class.btn--lg]="size === 'lg'"
+  [class.btn--full]="fullWidth"
+  [class.is-disabled]="disabled"
+  [class.is-loading]="loading"
+  [class.is-rounded]="rounded"
+  [attr.type]="type"
+  [disabled]="disabled || loading"
+  [attr.aria-disabled]="(disabled || loading) ? 'true' : null"
+  [attr.aria-busy]="loading ? 'true' : null"
+>
+  <small class="btn__content" [class.btn__content--hidden]="loading">
+    <ng-content></ng-content>
+  </small>
+
+  <span class="btn__spinner" *ngIf="loading" aria-hidden="true"></span>
+  <span class="sr-only" *ngIf="loading">Carregando…</span>
+</button>

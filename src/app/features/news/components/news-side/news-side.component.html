@@ -1,0 +1,64 @@
+<app-card class="ns">
+  <div class="ns__head">
+    <div class="ns__title">
+      <span class="pill  -50"><i class="bi bi-newspaper "></i> News</span>
+      <!-- <h3 class=" ">O que há de novo</h3> -->
+      <small class="  ">Atualizações rápidas da comunidade</small>
+    </div>
+
+    <button class="iconBtn" type="button" (click)="fetch()" [disabled]="loading" aria-label="Atualizar">
+      <i class="bi bi-arrow-repeat"></i>
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="ns__loading">
+    <app-skeleton *ngFor="let s of [1,2,3,4]"></app-skeleton>
+  </div>
+
+  <div *ngIf="!loading && errorMsg" class="ns__state">
+    <p class=" ">{{ errorMsg }}</p>
+    <app-button variant="outline" size="sm" type="button" (click)="fetch()">Tentar novamente</app-button>
+  </div>
+
+  <div *ngIf="!loading && !errorMsg && !hasItems()" class="ns__state">
+    <p class=" ">Sem notícias ainda.</p>
+    <app-button variant="primary" size="sm" type="button" (click)="goToCreate()">
+      <i class="bi bi-plus-circle"></i> Publicar
+    </app-button>
+  </div>
+
+  <ng-container *ngIf="!loading && !errorMsg && hasItems()">
+    <!-- Top -->
+    <div class="ns__block">
+      <div class="ns__blockHead">
+        <strong class=" ">Em alta</strong>
+        <button class="linkBtn" type="button" (click)="goToFeed()">Ver todas</button>
+      </div>
+
+      <div class="ns__top">
+        <button
+          class="topRow"
+          type="button"
+          *ngFor="let n of top(); trackBy: trackById"
+          (click)="openNews(n.id)"
+        >
+          <div class="topRow__t   small">{{ n.title }}</div>
+          <div class="topRow__m">
+            <span><i class="bi bi-heart"></i> {{ n.like }}</span>
+            <span><i class="bi bi-eye"></i> {{ n.view }}</span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <!-- <div class="ns__cta">
+      <app-button variant="primary" size="md" type="button" (click)="goToCreate()">
+        <i class="bi bi-plus-circle"></i> Publicar notícia
+      </app-button>
+      <app-button variant="outline" size="md" type="button" (click)="goToFeed()">
+        <i class="bi bi-grid"></i> Abrir feed
+      </app-button>
+    </div> -->
+  </ng-container>
+</app-card>

@@ -1,0 +1,218 @@
+<section class="msg">
+  <div class="msgTop mt-2">
+    <div class="msgTop__title">
+      <h1>Mensagens</h1>
+      <p class=" ">Caixa de entrada e enviados — estilo social.</p>
+    </div>
+
+    <app-button variant="primary" size="md" type="button" (click)="openCompose()">
+      <i class="bi bi-pencil-square"></i>
+      Nova mensagem
+    </app-button>
+  </div>
+
+  <div class="shell">
+    <!-- Left: list -->
+    <app-card class="panel listPanel">
+      <div class="tabs">
+        <button class="tab" type="button" [class.active]="mailbox === 'inbox'" (click)="setMailbox('inbox')">
+          <i class="bi bi-inbox"></i> Inbox
+        </button>
+
+        <button class="tab" type="button" [class.active]="mailbox === 'sent'" (click)="setMailbox('sent')">
+          <i class="bi bi-send"></i> Enviadas
+        </button>
+      </div>
+
+      <div class="search">
+        <i class="bi bi-search"></i>
+
+        <input
+          class="search__input"
+          type="text"
+          placeholder="Buscar por pessoa ou texto…"
+          [(ngModel)]="query"
+          (input)="applyFilter()"
+        />
+
+        <button *ngIf="query" class="search__clear" type="button" (click)="clearSearch()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div *ngIf="loading" class="loading">
+        <app-skeleton *ngFor="let s of [1,2,3,4,5,6]"></app-skeleton>
+      </div>
+
+      <div *ngIf="!loading && errorMsg" class="empty">
+        <div class="empty__icon"><i class="bi bi-exclamation-triangle"></i></div>
+        <h3>Ops…</h3>
+        <p>{{ errorMsg }}</p>
+        <app-button variant="outline" size="sm" type="button" (click)="fetch()">Tentar novamente</app-button>
+      </div>
+
+      <div *ngIf="!loading && !errorMsg && filtered.length === 0" class="empty">
+        <div class="empty__icon"><i class="bi bi-chat-square-dots"></i></div>
+        <h3>Nenhuma mensagem</h3>
+        <p>Quando alguém enviar, vai aparecer aqui.</p>
+      </div>
+
+      <div class="list" *ngIf="!loading && !errorMsg && filtered.length > 0">
+        <button
+          class="row"
+          type="button"
+          *ngFor="let m of filtered; trackBy: trackById"
+          [class.active]="isActiveRow(m)"
+          (click)="select(m)"
+        >
+          <app-user-avatar [src]="rowAvatar(m)" [name]="rowName(m)" [size]="40"></app-user-avatar>
+
+          <div class="row__mid">
+            <div class="row__top">
+              <strong class="name">{{ rowName(m) }}</strong>
+
+              <span class="badge" *ngIf="isUnread(m)">novo</span>
+
+              <span class="time">
+                {{ rowCreatedAt(m) | date:'dd/MM • HH:mm' }}
+              </span>
+            </div>
+
+            <p class="snippet">{{ rowSnippet(m) }}</p>
+          </div>
+
+          <span class="chev"><i class="bi bi-chevron-right"></i></span>
+        </button>
+      </div>
+
+      <div class="pager" *ngIf="!loading && totalPages > 1">
+        <app-button variant="outline" size="sm" type="button" (click)="prevPage()" [disabled]="page === 1">
+          <i class="bi bi-chevron-left"></i>
+        </app-button>
+
+        <span class="pager__label">Página <strong>{{ page }}</strong> / {{ totalPages }}</span>
+
+        <app-button variant="outline" size="sm" type="button" (click)="nextPage()" [disabled]="page === totalPages">
+          <i class="bi bi-chevron-right"></i>
+        </app-button>
+      </div>
+    </app-card>
+
+    <!-- Right: details -->
+    <app-card class="panel detailPanel">
+      <ng-container *ngIf="selected; else noSelect">
+        <div class="detailHead">
+          <div class="detailHead__left">
+            <app-user-avatar [src]="selectedUserAvatar()" [name]="selectedUserName()" [size]="44"></app-user-avatar>
+
+            <div>
+              <h2>{{ selectedUserName() }}</h2>
+
+              <p class=" " *ngIf="mailbox === 'inbox'">Mensagem recebida</p>
+              <p class=" " *ngIf="mailbox === 'sent'">Mensagem enviada</p>
+            </div>
+          </div>
+
+          <div class="detailHead__right">
+            <span class="mini">
+              <i class="bi bi-clock"></i>
+              {{ selectedCreatedAt() | date:'dd/MM/yyyy • HH:mm' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="bubble">
+          <p class="bubble__text">{{ selectedBody() }}</p>
+        </div>
+
+        <div class="detailActions" *ngIf="mailbox === 'inbox'">
+          <app-button variant="primary" size="md" type="button" (click)="openCompose()">
+            <i class="bi bi-reply"></i> Responder
+          </app-button>
+        </div>
+      </ng-container>
+
+      <ng-template #noSelect>
+        <div class="empty">
+          <div class="empty__icon"><i class="bi bi-inbox"></i></div>
+          <h3>Selecione uma mensagem</h3>
+          <p>Abra uma conversa para ver os detalhes aqui.</p>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+
+  <!-- Compose modal -->
+  <div class="overlay" *ngIf="isComposing" (click)="closeCompose()"></div>
+
+<app-card class="compose" *ngIf="isComposing">
+  <div class="composeHead">
+    <h3>Nova mensagem</h3>
+    <button class="x" type="button" (click)="closeCompose()">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <form class="composeForm" [formGroup]="form" (ngSubmit)="send()">
+    <!-- ✅ User picker -->
+    <div class="field">
+      <app-user-picker
+        label="Para"
+        [control]="toUserCtrl"
+      ></app-user-picker>
+      <!-- (validation message handled inside picker; keep this only if you want redundancy) -->
+      <!--
+      <small class="err" *ngIf="form.get('to_user_id')?.touched && form.get('to_user_id')?.invalid">
+        Obrigatório.
+      </small>
+      -->
+    </div>
+
+    <div class="field">
+      <label>Mensagem</label>
+      <textarea
+        class="textarea"
+        rows="5"
+        formControlName="body"
+        placeholder="Escreva sua mensagem..."
+      ></textarea>
+
+      <small class="err" *ngIf="form.get('body')?.touched && form.get('body')?.invalid">
+        Mínimo 2 caracteres.
+      </small>
+    </div>
+
+    <div class="composeMsg">
+      <span class="ok" *ngIf="sendOk">
+        <i class="bi bi-check2-circle"></i> Enviado!
+      </span>
+      <span class="err" *ngIf="sendError">
+        <i class="bi bi-exclamation-circle"></i> {{ sendError }}
+      </span>
+    </div>
+
+    <div class="composeActions">
+      <app-button
+        variant="outline"
+        size="md"
+        type="button"
+        (click)="closeCompose()"
+        [disabled]="sending"
+      >
+        Cancelar
+      </app-button>
+
+      <app-button
+        variant="primary"
+        size="md"
+        type="submit"
+        [loading]="sending"
+        [disabled]="sending || form.invalid"
+      >
+        <i class="bi bi-send"></i> Enviar
+      </app-button>
+    </div>
+  </form>
+</app-card>
+
+</section>

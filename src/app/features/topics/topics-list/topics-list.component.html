@@ -1,0 +1,235 @@
+<section class="topics-page">
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero__left">
+      <h1>
+        Explore e aprenda na <span class="accent">Info Tech GO</span>
+      </h1>
+      <h2 class="subtitle">
+        Conecte-se, compartilhe conhecimento e acompanhe discussões relevantes.
+      </h2>
+    </div>
+
+    <div class="hero__right">
+      <app-card class="heroCard" id="heroCard2">
+        <div class="heroCard__title">
+          <strong>Explore e aprenda na <span class="accent">Info Tech GO</span></strong>
+        </div>
+        <p class="heroCard__text">
+          Conecte-se, compartilhe conhecimento e acompanhe discussões relevantes.
+        </p>
+      </app-card>
+      <div class="heroCard__img">
+        <img src="/assets/img/infoForum10.png" alt="forum">
+      </div>
+      <app-card class="heroCard" >
+        <div class="heroCard__title">
+          <i class="bi bi-stars"></i>
+          <strong>Dica rápida</strong>
+        </div>
+        <p class="heroCard__text">
+          Um bom tópico tem título objetivo + contexto + o que você já tentou.
+        </p>
+      </app-card>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="layout">
+    <section class="feed">
+      <!-- TOOLBAR -->
+      <div class="toolbar">
+        <div class="">
+          <!-- <h3>Tópicos recentes</h3> -->
+          <!-- <span class="pill" *ngIf="!loading">{{ topics.length }} nesta página</span> -->
+
+        <!-- MOBILE: filters trigger -->
+        </div>
+        <button class="filters-btn only-mobile" type="button" (click)="filtersOpen = true">
+          Filtrar <i class="bi bi-search"></i>
+        </button>
+
+        <!-- DESKTOP controls (keeps your current layout) -->
+        <div class="toolbar__controls only-desktop">
+          <div class="search">
+            <i class="bi bi-search"></i>
+            <app-input
+              class="search__input"
+              type="text"
+              placeholder="Buscar por título ou conteúdo…"
+              [(ngModel)]="query"
+              (input)="onSearch()"
+            />
+            <button *ngIf="query" class="search__clear" type="button" (click)="clearSearch()">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <select class="select" [(ngModel)]="sort" (change)="applySort()">
+            <option value="recent">Mais recentes</option>
+            <option value="oldest">Mais antigos</option>
+            <option value="title">Título (A–Z)</option>
+          </select>
+
+          <app-button routerLink="/topics/new" variant="primary" size="md">
+            <i class="bi bi-plus-lg"></i>
+            Novo
+          </app-button>
+        </div>
+      </div>
+      <div class="feed-bg" aria-hidden="true"></div>
+
+      <!-- MOBILE: bottom sheet -->
+      <div class="sheet-backdrop" *ngIf="filtersOpen" (click)="filtersOpen = false"></div>
+
+      <div class="sheet" [class.open]="filtersOpen">
+        <div class="sheet__handle"></div>
+
+        <div class="sheet__header">
+          <div class="sheet__title">
+            <i class="bi bi-sliders"></i>
+            <strong>Aplicar filtros</strong>
+          </div>
+
+          <button class="icon-btn" type="button" (click)="filtersOpen = false" aria-label="Fechar filtros">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <div class="sheet__body">
+          <div class="search">
+            <i class="bi bi-search"></i>
+            <app-input
+              class="search__input"
+              type="text"
+              placeholder="Buscar por título ou conteúdo…"
+              [(ngModel)]="query"
+              (input)="onSearch()"
+            />
+            <button *ngIf="query" class="search__clear" type="button" (click)="clearSearch()">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <select class="select w-100" [(ngModel)]="sort" (change)="applySort()">
+            <option value="recent">Mais recentes</option>
+            <option value="oldest">Mais antigos</option>
+            <option value="title">Título (A–Z)</option>
+          </select>
+
+          <div class="sheet__actions">
+            <app-button variant="outline" size="md" (click)="clearSearch(); filtersOpen = false">
+              Limpar
+            </app-button>
+
+            <app-button variant="primary" size="md" (click)="filtersOpen = false">
+              Aplicar
+            </app-button>
+          </div>
+
+          <app-button class="w-100" routerLink="/topics/new" variant="primary" size="md" (click)="filtersOpen = false">
+            <i class="bi bi-plus-lg"></i>
+            Novo tópico
+          </app-button>
+        </div>
+      </div>
+
+
+      <!-- LOADING -->
+      <div *ngIf="loading" class="skeleton-wrapper">
+        <app-skeleton *ngFor="let s of [1,2,3,4,5,6]"></app-skeleton>
+      </div>
+
+      <!-- EMPTY -->
+      <div *ngIf="!loading && filteredTopics.length === 0" class="empty">
+        <div class="empty__icon"><i class="bi bi-chat-square-dots"></i></div>
+        <h3>Nenhum tópico encontrado</h3>
+        <p *ngIf="query; else emptyNoQuery">
+          Tente buscar por outro termo ou limpe o filtro.
+        </p>
+        <ng-template #emptyNoQuery>
+          <p>Seja o primeiro a criar um tópico e iniciar a conversa!</p>
+        </ng-template>
+
+        <div class="empty__actions">
+          <app-button variant="primary" size="md" routerLink="/topics/new">
+            <i class="bi bi-plus-circle"></i> Criar tópico
+          </app-button>
+
+          <app-button *ngIf="query" variant="outline" size="md" (click)="clearSearch()">
+            Limpar busca
+          </app-button>
+        </div>
+      </div>
+
+      <!-- LIST -->
+      <div class="topics-list" *ngIf="!loading && filteredTopics.length > 0">
+        <app-card
+          *ngFor="let topic of filteredTopics; trackBy: trackById"
+          class="topic-card"
+          role="button"
+          tabindex="0"
+          (click)="openTopic(topic)"
+          (keydown.enter)="openTopic(topic)"
+          (keydown.space)="$event.preventDefault(); openTopic(topic)"
+          variant="primary"
+        >
+
+          <div class="topic__body">
+            <div class="topic__left">
+              <app-user-avatar
+                [src]="topic.user?.avatar_url"
+                [name]="topic.user?.name"
+                [size]="44"
+                class="avatar"
+              ></app-user-avatar>
+            </div>
+            <div class="topic__meta">
+              <span class="author">{{ topic.user?.name || 'Usuário' }}</span>
+              <span class="dot">•</span>
+              <span class="date">{{ topic.created_at | date:'dd/MM/yyyy • HH:mm' }}</span>
+            </div>
+
+            <h3 class="title">{{ topic.title }}</h3>
+
+            <p class="preview">
+              {{ (topic.body ?? '').slice(0, 140) }}{{ (topic.body?.length ?? 0) > 140 ? '…' : '' }}
+            </p>
+
+
+            <div class="topic__tags mb-2">
+              <span class="tag">
+                <i class="bi bi-chat-dots"></i> Discussão
+              </span>
+              <span class="tag">
+                <i class="bi bi-clock"></i> Atualizado recentemente
+              </span>
+            </div>
+
+            <div class="topic__right">
+              <span class="chip">
+                <i class="bi bi-arrow-right"></i>
+              </span>
+            </div>
+          </div>
+        </app-card>
+      </div>
+      <div class="see-more" *ngIf="!loading && filteredTopics.length > 0">
+        <app-button
+          variant="outline"
+          size="md"
+          (click)="loadMore()"
+          [disabled]="loadingMore || currentPage >= totalPages"
+        >
+          <i class="bi" [ngClass]="loadingMore ? 'bi-arrow-repeat' : 'bi-chevron-down'"></i>
+          {{ currentPage >= totalPages ? 'Fim do feed' : (loadingMore ? 'Carregando...' : 'Ver mais') }}
+        </app-button>
+      </div>
+    </section>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <!-- <app-news-side class="news-sidebar"></app-news-side> -->
+    </aside>
+  </main>
+</section>

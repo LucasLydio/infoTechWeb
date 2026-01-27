@@ -1,0 +1,42 @@
+<section class="topic-create-page">
+  <app-card class="create-card">
+    <h2>Criar novo tópico</h2>
+    <form [formGroup]="topicForm" (ngSubmit)="submitTopic()" autocomplete="off">
+      <div class="form-group">
+        <label for="title">Título</label>
+        <input
+          id="title"
+          class="form-input"
+          formControlName="title"
+          maxlength="80"
+          [class.invalid]="topicForm.get('title')?.invalid && (topicForm.get('title')?.touched || topicForm.get('title')?.dirty)"
+          type="text"
+          placeholder="Escreva um título objetivo"
+        />
+        <div class="form-error" *ngIf="topicForm.get('title')?.invalid && (topicForm.get('title')?.touched || topicForm.get('title')?.dirty)">
+          O título deve ter pelo menos 6 caracteres.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="body">Descrição</label>
+        <textarea
+          id="body"
+          class="form-input"
+          formControlName="body"
+          rows="6"
+          maxlength="1200"
+          [class.invalid]="topicForm.get('body')?.invalid && (topicForm.get('body')?.touched || topicForm.get('body')?.dirty)"
+          placeholder="Descreva seu tópico, dúvida ou relato"
+        ></textarea>
+        <div class="form-error" *ngIf="topicForm.get('body')?.invalid && (topicForm.get('body')?.touched || topicForm.get('body')?.dirty)">
+          O corpo deve ter pelo menos 12 caracteres.
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="topicForm.invalid || submitting">
+        <span *ngIf="!submitting">Criar tópico</span>
+        <span *ngIf="submitting">Enviando...</span>
+      </button>
+      <div class="form-error" *ngIf="errorMsg">{{ errorMsg }}</div>
+    </form>
+  </app-card>
+</section>

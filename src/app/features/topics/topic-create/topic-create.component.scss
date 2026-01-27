@@ -1,0 +1,82 @@
+@use '../../../../theme/theme' as *;
+$primary:      #006c70;
+$accent:       #f4b313;
+$bg-light:     #f4f7f6;
+$shadow-soft: 0 2px 12px 0 rgba(0, 108, 112, 0.05), 0 1.5px 10px 0 rgba(0,0,0,0.04);
+$radius-lg: 1.5rem;
+
+.topic-create-page {
+  max-width: 580px;
+  margin: 0 auto;
+  padding: 32px 12px;
+
+  .create-card {
+    padding: 2rem 1.5rem;
+    h2 {
+      color: $primary;
+      font-size: 1.5rem;
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        label {
+          font-weight: 600;
+          font-size: 1rem;
+          color: $primary;
+        }
+        .form-input {
+          font-size: 1rem;
+          border: 1.5px solid #dae8e8;
+          border-radius: 1rem;
+          padding: 10px 13px;
+          background: $bg-light;
+          margin-top: 3px;
+          transition: border .18s;
+          &:focus {
+            outline: none;
+            border: 1.7px solid $accent;
+          }
+          &.invalid {
+            border: 1.5px solid #f67c7c;
+          }
+        }
+        textarea.form-input {
+          min-height: 120px;
+          resize: vertical;
+        }
+        .form-error {
+          color: #f67c7c;
+          font-size: .97rem;
+          margin-bottom: 0;
+        }
+      }
+      .btn {
+        align-self: flex-end;
+        margin-top: 12px;
+        background: $accent;
+        color: #fff;
+        border: none;
+        border-radius: 1rem;
+        font-weight: 600;
+        padding: 0.7rem 1.5rem;
+        box-shadow: $shadow-soft;
+        cursor: pointer;
+        transition: background 0.2s;
+        &:disabled {
+          opacity: .7;
+          cursor: not-allowed;
+        }
+        &:hover:enabled {
+          background: darken($accent, 9%);
+        }
+      }
+    }
+  }
+}

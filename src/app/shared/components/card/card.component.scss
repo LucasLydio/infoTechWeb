@@ -1,0 +1,41 @@
+.card {
+  // background: var(--bg-white);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-lg);
+  padding: 1.4rem 1.2rem;
+  border: 1px solid var(--border-color);
+  margin: 0;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+
+  @media (max-width: 599px) {
+    padding: 1rem 0.7rem;
+  }
+}
+
+
+.card--default {
+  background: var(--bg-white);
+}
+
+.card--primary {
+  border-color: color-mix(in srgb, var(--primary) 35%, transparent);
+  background: color-mix(in srgb, var(--primary) 98%, var(--bg-light));
+}
+
+.card--outline {
+  background: transparent;
+  border-color: var(--border-color);
+  box-shadow: none;
+  padding: 1rem 1.2rem;
+}
+
+.card--ghost {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.card--danger {
+  border-color: rgba(220, 53, 69, 0.35);
+  background: rgba(220, 53, 69, 0.06);
+}

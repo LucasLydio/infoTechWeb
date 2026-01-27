@@ -1,0 +1,21 @@
+@use '../../../../theme/theme' as *;
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    $bg-white
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.3s infinite linear;
+  margin: 0;
+  min-height: 12px;
+  border-radius: 6px;
+  box-shadow: $shadow-soft;
+  display: block;
+  background-color: transparent;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position-x: 0%; }
+  100% { background-position-x: -120%; }
+}

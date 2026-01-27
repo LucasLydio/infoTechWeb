@@ -1,0 +1,28 @@
+<form [formGroup]="sendForm" (ngSubmit)="send()">
+  <div class="mb-3">
+    <label for="to_user_id">Destinatário</label>
+    <select formControlName="to_user_id" class="form-select">
+      <option value="" disabled selected>Selecione um usuário</option>
+      <option *ngFor="let user of users" [value]="user.id">
+        {{ user.name }} ({{ user.email }})
+      </option>
+    </select>
+  </div>
+
+  <div class="mb-2 text-center" *ngIf="hasMore">
+    <button type="button" class="btn btn-outline-primary" (click)="loadUsers()" [disabled]="loadingUsers">
+      {{ loadingUsers ? 'Carregando...' : 'Carregar mais usuários' }}
+    </button>
+  </div>
+
+  <div class="mb-3">
+    <label for="body">Mensagem</label>
+    <textarea formControlName="body" class="form-control" rows="4" placeholder="Digite sua mensagem"></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100" [disabled]="submitting">
+    {{ submitting ? 'Enviando...' : 'Enviar Mensagem' }}
+  </button>
+
+  <div *ngIf="errorMsg" class="text-danger mt-2">{{ errorMsg }}</div>
+</form>

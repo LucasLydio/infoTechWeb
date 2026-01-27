@@ -1,0 +1,86 @@
+<section class="topic-details-page" *ngIf="!loading; else loadingTpl">
+  <ng-container *ngIf="this.topic; else notFoundTpl">
+    <app-card class="topic-detail-card">
+      <div class="topic-header">
+        <app-user-avatar [src]="this.topic.user?.avatar_url" [size]="40" class="avatar"></app-user-avatar>
+        <div>
+          <div class="meta">
+            <p>{{ this.topic.user?.name }} · {{ this.topic.created_at | date:'short' }}</p>
+          </div>
+          <h5>{{ this.topic.title || 'Nada' }}</h5>
+        </div>
+      </div>
+      <div class="topic-body">
+        <p>{{ this.topic.body }}</p>
+      </div>
+      <div class="topic-actions d-flex w-100 flex-wrap gap-2">
+        <button class="btn btn-group d-flex align-items-center gap-2 border">
+          <small class=" ">Gostei</small>
+          <i class="bi bi-hand-thumbs-up"></i>
+        </button>
+        <button class="btn btn-group d-flex align-items-center gap-2 border">
+          <small class=" ">Não Gostei</small>
+          <i class="bi bi-hand-thumbs-down" ></i>
+        </button>
+      </div>
+    </app-card>
+
+    <section class="reply-form-section">
+      <h4 class="section-title">Responder</h4>
+      <form [formGroup]="replyForm" (ngSubmit)="submitReply()" autocomplete="off">
+        <textarea
+          formControlName="body"
+          rows="4"
+          placeholder="Digite sua resposta..."
+          class="reply-textarea"
+          [class.invalid]="replyForm.get('body')?.invalid && (replyForm.get('body')?.touched || replyForm.get('body')?.dirty)">
+        </textarea>
+        <div *ngIf="replyForm.get('body')?.invalid && (replyForm.get('body')?.touched || replyForm.get('body')?.dirty)"
+            class="form-error">
+          Sua resposta precisa ter pelo menos 3 caracteres.
+        </div>
+        <button class="btn btn-primary" type="submit" [disabled]="replyForm.invalid || sending">
+          <span *ngIf="!sending">Enviar resposta</span>
+          <span *ngIf="sending">Enviando...</span>
+        </button>
+        <div *ngIf="errorMsg" class="form-error">{{ errorMsg }}</div>
+      </form>
+    </section>
+
+    <section class="replies-section">
+      <h3 class="section-title">Respostas</h3>
+      <div *ngIf="replyLoading" class="skeleton-wrapper">
+        <app-skeleton *ngFor="let s of [1,2,3,4,5]" ></app-skeleton>
+      </div>
+      <div *ngIf="!replyLoading && replies.length === 0" class="empty-state">
+        Nenhuma resposta ainda.
+      </div>
+      <div *ngIf="!replyLoading && replies.length > 0" class="replies-list d-flex flex-column gap-2">
+        <app-card *ngFor="let reply of replies" class="reply-card my-2">
+          <div class="reply-header">
+            <app-user-avatar [src]="reply.user?.avatar_url" [size]="32" class="avatar"></app-user-avatar>
+            <div>
+              <span class="reply-author">{{ reply.user?.name }}</span>
+              <span class="reply-date">{{ reply.created_at | date:'short' }}</span>
+            </div>
+          </div>
+          <div class="reply-body">
+            <p> {{ reply.body }}</p>
+          </div>
+        </app-card>
+      </div>
+    </section>
+  </ng-container>
+</section>
+
+<ng-template #loadingTpl>
+  <div class="skeleton-wrapper">
+    <app-skeleton></app-skeleton>
+    <app-skeleton></app-skeleton>
+  </div>
+</ng-template>
+<ng-template #notFoundTpl>
+  <div class="empty-state">
+    Tópico não encontrado.
+  </div>
+</ng-template>

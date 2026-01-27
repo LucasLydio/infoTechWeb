@@ -1,0 +1,90 @@
+<section class="register-page">
+  <app-card class="register-card">
+    <h2>Criar conta</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="submit()" autocomplete="off">
+
+      <!-- Nome -->
+      <div class="form-group">
+        <label for="name">Nome completo</label>
+        <input
+          name="name"
+          id="name"
+          type="text"
+          class="form-input"
+          formControlName="name"
+          placeholder="Seu nome"
+          [class.invalid]="registerForm.get('name')?.invalid && (registerForm.get('name')?.touched || registerForm.get('name')?.dirty)"
+        />
+        <div class="form-error" *ngIf="registerForm.get('name')?.invalid && (registerForm.get('name')?.touched || registerForm.get('name')?.dirty)">
+          Nome deve ter pelo menos 3 caracteres.
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          class="form-input"
+          formControlName="email"
+          placeholder="email@exemplo.com"
+          [class.invalid]="registerForm.get('email')?.invalid && (registerForm.get('email')?.touched || registerForm.get('email')?.dirty)"
+        />
+        <div class="form-error" *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.touched || registerForm.get('email')?.dirty)">
+          Informe um e-mail válido.
+        </div>
+      </div>
+
+      <!-- Senha -->
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          class="form-input"
+          formControlName="password"
+          placeholder="Crie uma senha"
+          [class.invalid]="registerForm.get('password')?.invalid && (registerForm.get('password')?.touched || registerForm.get('password')?.dirty)"
+        />
+        <div class="form-error" *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.touched || registerForm.get('password')?.dirty)">
+          A senha deve ter no mínimo 6 caracteres.
+        </div>
+      </div>
+
+      <!-- Confirmar senha -->
+      <div class="form-group">
+        <label for="confirm">Confirmar senha</label>
+        <input
+          id="confirm"
+          type="password"
+          class="form-input"
+          formControlName="confirm"
+          placeholder="Repita a senha"
+          [class.invalid]="registerForm.errors?.['mismatch'] && (registerForm.get('confirm')?.touched || registerForm.get('confirm')?.dirty)"
+        />
+        <div class="form-error" *ngIf="registerForm.errors?.['mismatch']">
+          As senhas não coincidem.
+        </div>
+      </div>
+
+      <!-- Botão -->
+      <button class="btn btn-primary w-100" type="submit" [disabled]="registerForm.invalid || submitting">
+        <span *ngIf="!submitting">Cadastrar</span>
+        <span *ngIf="submitting">Criando...</span>
+      </button>
+
+      <!-- Erro geral -->
+      <div class="form-error general-error" *ngIf="errorMsg">
+        {{ errorMsg }}
+      </div>
+
+      <div class="login-link">
+        Já tem conta? <a routerLink="/auth/login">Entrar</a>
+      </div>
+    </form>
+  </app-card>
+</section>

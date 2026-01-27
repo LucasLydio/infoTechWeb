@@ -1,0 +1,177 @@
+<section class="p">
+  <!-- Header -->
+  <header class="p__top">
+    <div class="p__title">
+      <h1>Seu perfil</h1>
+      <p>Atualize seu nome e avatar — isso aparece em tópicos, respostas e mensagens.</p>
+    </div>
+
+    <div class="p__topActions" *ngIf="state === 'ready'">
+      <app-button variant="outline" size="md" (click)="copyEmail()">
+        <i class="bi bi-clipboard"></i>
+        {{ copied ? 'Copiado!' : 'Copiar email' }}
+      </app-button>
+
+      <app-button variant="outline" size="md" routerLink="/topics">
+        <i class="bi bi-chat-dots"></i> Ir para tópicos
+      </app-button>
+    </div>
+  </header>
+
+  <!-- Error banner -->
+  <div *ngIf="state === 'error'" class="banner banner--error">
+    <div class="banner__left">
+      <i class="bi bi-exclamation-triangle"></i>
+      <div>
+        <strong>Algo deu errado</strong>
+        <p>{{ errorMsg }}</p>
+      </div>
+    </div>
+    <app-button variant="primary" size="md" (click)="loadMe()">Tentar novamente</app-button>
+  </div>
+
+  <!-- Loading -->
+  <ng-container *ngIf="state === 'loading'">
+    <div class="grid">
+      <app-card class="card">
+        <div class="skRow">
+          <div class="sk skAvatar"></div>
+          <div class="skCol">
+            <div class="sk skLine"></div>
+            <div class="sk skLine short"></div>
+          </div>
+        </div>
+        <div class="sk skBlock"></div>
+      </app-card>
+
+      <app-card class="card">
+        <div class="sk skLine"></div>
+        <div class="sk skLine short"></div>
+        <div class="sk skBlock"></div>
+      </app-card>
+    </div>
+  </ng-container>
+
+  <!-- Ready -->
+  <ng-container *ngIf="state === 'ready' && user as u">
+    <div class="grid">
+      <!-- LEFT: Identity card (preview-first) -->
+      <app-card class="card bg-transparent">
+        <div class="identity">
+          <div class="identity__avatar">
+            <app-user-avatar [src]="avatarPreview" [name]="form.value.name || u.name" ></app-user-avatar>
+            <span class="identity__hint">Pré-visualização</span>
+          </div>
+
+          <div class="identity__info">
+            <h2>{{ form.value.name || u.name }}</h2>
+            <p class=" ">{{ u.email }}</p>
+
+            <div class="chips">
+              <span class="chip">
+                <i class="bi bi-calendar3"></i>
+                Entrou em
+                <span class="chip__strong">{{ (createdAtDate || (u.created_at | date)) ? (createdAtDate | date:'MMM yyyy') : '—' }}</span>
+              </span>
+
+              <span class="chip">
+                <i class="bi bi-patch-check"></i>
+                Perfil ativo
+              </span>
+            </div>
+
+            <div class="ctaRow">
+              <app-button variant="primary" size="md" routerLink="/topics/new">
+                <i class="bi bi-plus-circle"></i> Criar tópico
+              </app-button>
+
+              <app-button variant="outline" size="md" routerLink="/messages/inbox">
+                <i class="bi bi-inbox"></i> Mensagens
+              </app-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip">
+          <i class="bi bi-lightbulb"></i>
+          <p>Use uma imagem quadrada (ex: 400×400). Links diretos .png/.jpg funcionam melhor.</p>
+        </div>
+      </app-card>
+
+      <!-- RIGHT: Edit card (minimal, focused) -->
+      <app-card class="card bg-transparent">
+        <div class="cardHead">
+          <div>
+            <h3>Editar</h3>
+            <p class=" ">Mudanças são salvas no seu perfil imediatamente.</p>
+          </div>
+
+          <span class="status" [class.on]="isDirty">
+            <i class="bi" [ngClass]="isDirty ? 'bi-dot' : 'bi-check2'"></i>
+            {{ isDirty ? 'Alterações pendentes' : 'Tudo salvo' }}
+          </span>
+        </div>
+
+        <form class="form" [formGroup]="form" (ngSubmit)="save()">
+          <div class="field">
+            <label>Nome</label>
+            <app-input formControlName="name" placeholder="Ex.: Lucas Lydio"></app-input>
+            <small class="err" *ngIf="nameCtrl?.touched && nameCtrl?.invalid">
+              Nome deve ter pelo menos 2 caracteres.
+            </small>
+          </div>
+
+          <div class="field">
+            <label>Avatar (URL)</label>
+            <app-input formControlName="avatar_url" placeholder="https://..."></app-input>
+
+            <div class="miniPreview" *ngIf="(avatarCtrl?.value || '').trim().length">
+              <span>Preview</span>
+              <img [src]="avatarCtrl?.value" alt="Prévia do avatar" (error)="avatarCtrl?.setValue('')" />
+            </div>
+          </div>
+
+          <div class="readonly">
+            <div class="readonly__row">
+              <span class="k">Email</span>
+              <span class="v">{{ u.email }}</span>
+            </div>
+            <div class="readonly__row">
+              <span class="k">Criado em</span>
+              <span class="v">{{ createdAtDate ? (createdAtDate | date:'dd/MM/yyyy') : '—' }}</span>
+            </div>
+          </div>
+        </form>
+      </app-card>
+    </div>
+
+    <!-- Sticky save bar (only when dirty) -->
+    <div class="savebar" [class.show]="isDirty || isSaving">
+      <div class="savebar__inner">
+        <div class="savebar__left">
+          <i class="bi" [ngClass]="isSaving ? 'bi-arrow-repeat spin' : 'bi-dot'"></i>
+          <span *ngIf="!isSaving">Você tem alterações não salvas.</span>
+          <span *ngIf="isSaving">Salvando alterações…</span>
+        </div>
+
+        <div class="savebar__actions">
+          <app-button variant="outline" size="md" (click)="reset()" [disabled]="isSaving">Descartar</app-button>
+          <app-button variant="primary" size="md" (click)="save()" [disabled]="isSaving || form.invalid">
+            Salvar
+          </app-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inline error (save fail) -->
+    <div *ngIf="errorMsg && state === 'ready'" class="banner banner--warn">
+      <div class="banner__left">
+        <i class="bi bi-exclamation-circle"></i>
+        <div>
+          <strong>Atenção</strong>
+          <p>{{ errorMsg }}</p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</section>

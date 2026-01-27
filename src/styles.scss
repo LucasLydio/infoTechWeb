@@ -1,1 +1,91 @@
 /* You can add global styles to this file, and also import other style files */
+@use "./theme/theme";       // light (your theme.scss)
+@use "./theme/theme-dark";  // dark overrides
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Montserrat', sans-serif;
+}
+
+.only-desktop {
+  display: block;
+}
+
+.only-mobile {
+  display: none;
+}
+
+@media (max-width: 1016px) {
+  .only-desktop {
+    display: none;
+  }
+
+  .only-mobile {
+    display: block;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: var(--color-text) !important;
+  margin-bottom: 0.6rem;
+}
+
+p, li {
+  font-size: .8rem !important;
+  font-weight: 300;
+  color: var(--color-text-light) !important;
+}
+
+label, span {
+  font-weight: 600;
+  color: var(--color-text-light) !important;
+}
+
+h1 { font-size: 1.8rem !important; }
+h2 { font-size: 1.3rem !important; }
+h3 { font-size: 1rem !important; }
+h4 { font-size: .92rem !important; }
+h5 { font-size: .9rem !important; }
+h6 { font-size: .85rem !important;  }
+
+input,
+textarea,
+select {
+  outline: none !important;
+  width: 100%;
+  padding-inline: var(--padding);
+  border-radius: 8px;
+  border: 1px solid var(--border-color-accent) !important;
+  color: var(--color-text-light) !important;
+  font-size: 1rem;
+  background: var(--bg-white) !important;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.25s ease;
+
+  i {
+    color: var(--color-text) !important;
+  }
+  &::placeholder {
+    color: var(--color-text) !important;
+    opacity: 0.7;
+  }
+
+  &:disabled {
+    background: var(--accent-hover);
+    color: var(--color-text-light);
+  }
+}
+
+select:invalid {
+  color: var(--color-text-light) !important;
+}
+
+option[disabled] {
+  color: var(--color-text-light) !important;
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}

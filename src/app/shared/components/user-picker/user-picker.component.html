@@ -1,0 +1,74 @@
+<div class="up">
+  <label class="up__label">{{ label }}</label>
+
+  <button class="up__trigger" type="button" (click)="toggle()" [class.invalid]="control.touched && control.invalid">
+    <app-user-avatar
+      class="up__avatar"
+      [src]="currentAvatar()"
+      [name]="currentLabel()"
+      [size]="34"
+    ></app-user-avatar>
+
+    <div class="up__text">
+      <span class="up__value">{{ currentLabel() }}</span>
+      <span class="up__hint">Escolha alguém para receber sua mensagem</span>
+    </div>
+
+    <span class="up__chev"><i class="bi bi-chevron-down"></i></span>
+  </button>
+
+  <small class="up__err" *ngIf="control.touched && control.invalid">Obrigatório.</small>
+
+  <!-- Dropdown -->
+  <div class="up__panel" *ngIf="open">
+    <div class="up__search">
+      <i class="bi bi-search"></i>
+      <input
+        type="text"
+        class="up__input"
+        placeholder="Buscar por nome ou e-mail…"
+        [(ngModel)]="q"
+        (input)="applyFilter()"
+      />
+      <button class="up__clear" type="button" *ngIf="q" (click)="clearSearch()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="up__state" *ngIf="loading">
+      <app-skeleton *ngFor="let s of [1,2,3,4]"></app-skeleton>
+    </div>
+
+    <div class="up__state" *ngIf="!loading && errorMsg">
+      <p>{{ errorMsg }}</p>
+      <app-button variant="outline" size="sm" type="button" (click)="fetch(page)">Tentar novamente</app-button>
+    </div>
+
+    <div class="up__list" *ngIf="!loading && !errorMsg && filtered.length > 0">
+      <button class="up__row" type="button" *ngFor="let u of filtered; trackBy: trackUser" (click)="pick(u)">
+        <app-user-avatar [src]="u.avatar_url" [name]="u.name" [size]="36"></app-user-avatar>
+
+        <div class="up__rowText">
+          <strong>{{ u.name }}</strong>
+          <span class=" ">{{ u.email }}</span>
+        </div>
+
+        <span class="up__ok" *ngIf="control.value === u.id"><i class="bi bi-check2"></i></span>
+      </button>
+    </div>
+
+    <div class="up__state" *ngIf="!loading && !errorMsg && filtered.length === 0">
+      <p>Nenhum usuário encontrado.</p>
+    </div>
+
+    <div class="up__pager" *ngIf="!loading && totalPages > 1">
+      <app-button variant="outline" size="sm" type="button" (click)="prevPage()" [disabled]="page === 1">
+        <i class="bi bi-chevron-left"></i>
+      </app-button>
+      <span class="up__page">{{ page }} / {{ totalPages }}</span>
+      <app-button variant="outline" size="sm" type="button" (click)="nextPage()" [disabled]="page === totalPages">
+        <i class="bi bi-chevron-right"></i>
+      </app-button>
+    </div>
+  </div>
+</div>

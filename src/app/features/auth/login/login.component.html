@@ -1,0 +1,43 @@
+<section class="login-page">
+  <app-card class="login-card">
+    <h2>Entrar no Fórum</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="submit()" autocomplete="off">
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input
+          id="email"
+          type="email"
+          class="form-input"
+          formControlName="email"
+          placeholder="Seu e-mail"
+          [class.invalid]="loginForm.get('email')?.invalid && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
+        />
+        <div class="form-error" *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
+          Informe um e-mail válido.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input
+          id="password"
+          type="password"
+          class="form-input"
+          formControlName="password"
+          placeholder="Sua senha"
+          [class.invalid]="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)"
+        />
+        <div class="form-error" *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
+          A senha deve ter pelo menos 6 caracteres.
+        </div>
+      </div>
+      <button class="btn btn-primary w-100" type="submit" [disabled]="loginForm.invalid || submitting">
+        <span *ngIf="!submitting">Entrar</span>
+        <span *ngIf="submitting">Entrando...</span>
+      </button>
+      <div class="form-error" *ngIf="errorMsg">{{ errorMsg }}</div>
+      <div class="register-link">
+        Não tem conta? <a routerLink="/auth/register">Cadastrar-se</a>
+      </div>
+    </form>
+  </app-card>
+</section>

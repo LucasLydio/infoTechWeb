@@ -1,0 +1,10 @@
+<div
+  class="card"
+  [class.card--default]="variant === 'default'"
+  [class.card--primary]="variant === 'primary'"
+  [class.card--outline]="variant === 'outline'"
+  [class.card--ghost]="variant === 'ghost'"
+  [class.card--danger]="variant === 'danger'"
+>
+  <ng-content></ng-content>
+</div>

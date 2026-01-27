@@ -1,0 +1,32 @@
+<app-card class="nt">
+  <div class="nt__left">
+    <div class="search">
+      <i class="bi bi-search  "></i>
+      <input
+        class="search__input"
+        type="text"
+        [value]="searchCtrl.value"
+        (input)="searchCtrl.setValue(($any($event.target).value || '').toString())"
+        placeholder="Buscar por título ou conteúdo…"
+      />
+      <button class="search__clear" type="button" *ngIf="searchCtrl.value" (click)="clear()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <div class="chips">
+      <button class="chip" type="button" [class.active]="sortCtrl.value === 'recent'" (click)="sortCtrl.setValue('recent')">
+        <i class="bi bi-clock"></i> Recentes
+      </button>
+      <button class="chip" type="button" [class.active]="sortCtrl.value === 'popular'" (click)="sortCtrl.setValue('popular')">
+        <i class="bi bi-fire"></i> Populares
+      </button>
+    </div>
+  </div>
+
+  <div class="nt__right">
+    <app-button variant="outline" size="sm" type="button" (click)="refresh.emit()">
+      <i class="bi bi-arrow-repeat"></i> Atualizar
+    </app-button>
+  </div>
+</app-card>

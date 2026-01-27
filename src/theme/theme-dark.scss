@@ -1,0 +1,39 @@
+/* src/theme/theme-dark.scss */
+/* Dark theme overrides — applied when <html data-theme="dark"> */
+
+:root[data-theme="dark"] {
+  --bg-light: #0f1417;
+  --bg-white: #1d242a;
+  --bg-light-dark: rgba(30, 28, 28, 0.819);
+  --bg-lightness: rgba(30, 28, 28, 0.819);
+  --bg-green: #1d242a;
+
+  --accent: #f4b313;
+  --accent-dark: #b68614;
+
+  --primary: #2aa6aa63;
+  --primary-dark: #0c2e30;
+
+  --color-text: #ecf2f3;
+  --color-text-light: rgba(236, 242, 243, 0.82);
+
+  --color-icon: #2aa6aadc;
+  --text-card-green: #f2f2f2;
+  --text-light-card-green: #f2f2f2b8;
+
+  --border-color: rgba(236, 242, 243, 0.12);
+  --border-color-accent: rgba(179, 178, 176, 0.31);
+
+  --primary-hover: rgba(42, 166, 170, 0.18);
+  --accent-hover: rgba(244, 179, 19, 0.18);
+
+  --shadow-soft: 0 2px 12px 0 rgba(0, 0, 0, 0.35), 0 1.5px 10px 0 rgba(0, 0, 0, 0.25);
+  --shadow-soft-white: 0 2px 12px 0 rgba(0, 0, 0, 0.28), 0 1.5px 8px 0 rgba(0, 0, 0, 0.22);
+
+  --border-md: 18px;
+  --radius-lg: .5rem;
+  --radius-pill: 999px;
+  --padding: .75rem;
+  --padding-md: 1.25rem;
+  --padding-lg: 1.55rem;
+}
