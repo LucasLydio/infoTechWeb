@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 
-export type CardVariant = "default" | "primary" | "outline" | "ghost" | "danger";
+export type CardVariant = "default" | "primary" | "outline" | "ghost" | "danger" | "dark";
 
 @Component({
   selector: "app-card",

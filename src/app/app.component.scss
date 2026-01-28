@@ -40,7 +40,7 @@ $bp: 1110px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-white);
+  background-color: var(--bg-light);
   padding-bottom: 5.25rem;
 
   @media (min-width: $bp) {
@@ -70,9 +70,9 @@ $bp: 1110px;
     position: relative;
     z-index: 210;
 
-    max-width: 1120px;
+    // max-width: 1120px;
     margin: 0 auto;
-    padding: .75rem 1rem;
+    padding: .95rem 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -95,7 +95,7 @@ $bp: 1110px;
   gap: .75rem;
   text-decoration: none;
   border-radius:  $radius-pill;
-  background-color: var(--bg-light);
+  background-color: var(--bg-white);
   box-shadow: var(--shadow-soft);
   border: 1px solid var(--border-color-accent);
   gap: .25rem;
@@ -123,7 +123,7 @@ $bp: 1110px;
   gap: .25rem;
   padding: .25rem;
   border-radius:  $radius-pill;
-  background-color: var(--bg-light);
+  background-color: var(--bg-white);
   box-shadow: var(--shadow-soft);
   border: 1px solid var(--border-color-accent);
 
@@ -133,7 +133,7 @@ $bp: 1110px;
     border-radius: 999px;
     text-decoration: none;
     color: var(--color-text-light);
-    font-weight: 500;
+    font-weight: 500 !important;
     transition: transform .15s ease, background .15s ease, color .15s ease;
 
     &:hover {
@@ -241,52 +241,23 @@ $bp: 1110px;
   margin-left: 1.5rem;
 
   @media (max-width: 780px) {
-    padding: unset;
-    padding: .2rem;
+    padding-inline: .2rem;
     margin-left: inherit;
   }
 }
 
 .content__container {
-  margin: 0 auto;
-  width: 100%;
-
-
-  border-radius: 1px;
-
-
-  padding-inline: .2rem;
+  // margin: 0 auto;
 
   @media (min-width: 1110px) {
     padding-left: 3rem;
   }
 
   @media (max-width: 640px) {
-    padding: 1.25rem;
     max-width: 100%;
-    padding: inherit;
-    padding-inline: .2rem;
   }
 }
 
-/* ===== Footer ===== */
-.footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-
-  .footer__inner {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 1rem;
-    text-align: center;
-    color: rgba(233, 238, 241, 0.65);
-
-    p { margin: 0.2rem 0; }
-  }
-
-  @media (max-width: $bp) {
-    padding-bottom: 3.25rem;
-  }
-}
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {

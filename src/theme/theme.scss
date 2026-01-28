@@ -43,10 +43,10 @@ $dark-sand: black;
 $dark-light-sand: rgba(0, 0, 0, 0.815);
 
 :root {
-  --bg-light:#f2f2f2;
+  --bg-light:#f4f4f4;
   --bg-white: white;
   --bg-light-dark: rgba(168, 165, 165, 0.07);
-  --bg-lightness: rgba(134, 132, 132, 0.07);
+  --bg-lightness: rgba(240, 240, 240, 0.842);
   --bg-green: #148387b0;
 
   --accent: #f4b313;
@@ -70,10 +70,10 @@ $dark-light-sand: rgba(0, 0, 0, 0.815);
   --shadow-soft-white: 0 2px 12px 0 rgba(0, 108, 112, 0.05), 0 1.5px 8px 0 rgb(255, 255, 255);
   --shadow-lg: 0 2px 12px 0 rgba(0, 108, 112, 0.05), 0 1.5px 12px 0 rgba(0, 0, 0, 0.284);
 
-  --border-md: 18px;
+  --radius-md: 18px;
   --radius-lg: .5rem;
   --radius-pill: 999px;
-  --padding: .75rem;
+  --padding: .55rem;
   --padding-md: 1.25rem;
   --padding-lg: 1.55rem;
 }

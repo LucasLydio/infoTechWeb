@@ -10,32 +10,24 @@
   <div class="container bg-transparent">
     <header class="hero">
       <div class="hero__left">
-        <p class="pill">
-          <span class="dot"></span>
-          Comunidade • Notícias • Mensagens
-        </p>
+        <div class="heroCard">
+          <p class="pill">
+            <span class="dot"></span>
+            Comunidade • Notícias • Mensagens
+          </p>
 
-        <h1 class="title">
-          Bem-vindo ao <span class="accent">Info Tech GO</span>
-        </h1>
+          <h1 class="title">
+            Bem-vindo ao <span class="accent">Info Tech Web</span>
+          </h1>
 
-        <p class="subtitle">
-          Um fórum moderno para compartilhar ideias, aprender com a comunidade e acompanhar tópicos relevantes — com uma experiência
-          bonita, rápida e organizada.
-        </p>
-
-        <div class="actions">
-          <!-- If your shared components exist -->
-          <app-button routerLink="/topics" variant="primary" size="lg">
-            Explorar tópicos
-          </app-button>
-
-          <app-button routerLink="/topics/new" variant="outline" size="lg">
-            Criar tópico
-          </app-button>
+          <p class="subtitle">
+            Um fórum moderno para compartilhar ideias, aprender
+            com a comunidade e acompanhar tópicos relevantes — com uma experiência
+            bonita, rápida e organizada.
+          </p>
         </div>
 
-        <div class="meta">
+        <!-- <div class="meta">
           <div class="stat">
             <span class="stat__value">UI Premium</span>
             <small class="stat__label">Cards, hierarquia e contraste</small>
@@ -48,63 +40,84 @@
             <span class="stat__value">Acessível</span>
             <small class="stat__label">Focus, motion settings e UX</small>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="hero-img">
-            <img src="assets/img/infoForum9.png" alt="Tech GO"  />
-      </div>
-
-      <div class="hero__right">
-        <!-- Showcase card -->
-        <app-card class="showcase">
-          <div class="showcase__head">
-            <div class="logo">
-              <img src="assets/img/logoTECH2.webp" alt="Tech GO" />
-            </div>
-
-            <div>
-              <h3>Comece por aqui</h3>
-              <p>Entre, veja os tópicos em alta e participe.</p>
-            </div>
-          </div>
-
-          <div class="showcase__list">
-            <div class="row">
-              <i class="bi bi-stars"></i>
-              <div>
-                <strong>Descubra</strong>
-                <span>tópicos bem organizados</span>
-              </div>
-            </div>
-
-            <div class="row">
-              <i class="bi bi-chat-dots"></i>
-              <div>
-                <strong>Converse</strong>
-                <span>com a comunidade</span>
-              </div>
-            </div>
-
-            <div class="row">
-              <i class="bi bi-envelope"></i>
-              <div>
-                <strong>Mensagens</strong>
-                <span>inbox/privado quando precisar</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="showcase__cta" *ngIf="(isLoggedIn$ | async) === false">
-            <app-button routerLink="/auth/login" variant="primary" size="md">Entrar</app-button>
-            <app-button routerLink="/auth/register" variant="outline" size="md">Criar conta</app-button>
-          </div>
-
-          <div class="showcase__cta" *ngIf="(isLoggedIn$ | async) === true">
-            <app-button routerLink="/profile/me" variant="primary" size="md">Ir para meu perfil</app-button>
-            <app-button routerLink="/messages/inbox" variant="outline" size="md">Abrir mensagens</app-button>
-          </div>
-        </app-card>
+            <img src="assets/img/foxForum.webp" alt="Tech GO"  />
       </div>
     </header>
+
+    <!-- carousel with dev icons from https://devicon.dev/  -->
+    <div class="carousel" aria-label="Tecnologias">
+      <div class="carousel__track" [style.animationDuration]="carouselDuration">
+        <ng-container *ngFor="let item of carouselItems">
+          <div class="carousel__item" [title]="item.name">
+            <img [src]="item.src" [alt]="item.name" loading="lazy" />
+            <span class="carousel__label">{{ item.name }}</span>
+          </div>
+        </ng-container>
+
+        <!-- duplicate for seamless loop -->
+        <ng-container *ngFor="let item of carouselItems">
+          <div class="carousel__item" [title]="item.name">
+            <img [src]="item.src" [alt]="item.name" loading="lazy" />
+            <span class="carousel__label">{{ item.name }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <hr class="w-25 text-black-50">
+    <div class="my-3">
+      <!-- Showcase card -->
+      <app-card class="showcase" variant="ghost">
+        <div class="showcase__head">
+          <div class="logo">
+            <img src="assets/img/foxForum.webp" alt="Tech GO" />
+          </div>
+
+          <div>
+            <h3>Comece por aqui</h3>
+            <p>Entre, veja os tópicos em alta e participe.</p>
+          </div>
+        </div>
+
+        <div class="showcase__list">
+          <div class="row">
+            <i class="bi bi-stars"></i>
+            <div>
+              <strong>Descubra</strong>
+              <span>tópicos bem organizados</span>
+            </div>
+          </div>
+
+          <div class="row">
+            <i class="bi bi-chat-dots"></i>
+            <div>
+              <strong>Converse</strong>
+              <span>com a comunidade</span>
+            </div>
+          </div>
+
+          <div class="row">
+            <i class="bi bi-envelope"></i>
+            <div>
+              <strong>Mensagens</strong>
+              <span>inbox/privado quando precisar</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="showcase__cta" *ngIf="(isLoggedIn$ | async) === false">
+          <app-button routerLink="/auth/login" variant="primary" size="md">Entrar</app-button>
+          <app-button routerLink="/auth/register" variant="outline" size="md">Criar conta</app-button>
+        </div>
+
+        <div class="showcase__cta" *ngIf="(isLoggedIn$ | async) === true">
+          <app-button routerLink="/profile/me" variant="primary" size="md">Ir para meu perfil</app-button>
+          <app-button routerLink="/messages/inbox" variant="outline" size="md">Abrir mensagens</app-button>
+        </div>
+      </app-card>
+    </div>
   </div>
 </section>

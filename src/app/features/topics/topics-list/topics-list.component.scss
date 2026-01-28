@@ -8,10 +8,10 @@ $text-muted: rgba(233, 238, 241, 0.72);
 .topics-page {
   position: relative;
   align-self: center;
-  padding: 1rem 3rem;
+  padding-inline: 1rem;
 
   @media (max-width: 780px) {
-    padding: inherit;
+    padding: unset;
   }
 }
 
@@ -50,7 +50,7 @@ $text-muted: rgba(233, 238, 241, 0.72);
 
   h1 {
     margin: 0;
-    font-size: clamp(1.1rem, 3vw, 1.7rem) !important;
+    font-size: clamp(1.1rem, 3vw, 2.3rem) !important;
     letter-spacing: -0.4px;
     line-height: 1.1;
     color: var(--text-card-green) !important;
@@ -151,8 +151,10 @@ $text-muted: rgba(233, 238, 241, 0.72);
   gap: 1rem;
   margin-top: 1rem;
 
-  background-color: var(--bg-lightness);
-  border-radius: 18px;
+  background-color: var(--bg-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-color);
 
   @media (min-width: 1100px) {
     grid-template-columns: 1fr 340px;
@@ -165,7 +167,7 @@ $text-muted: rgba(233, 238, 241, 0.72);
   position: absolute;
   inset: 0;
   background: url("/assets/img/infoForum12.png") center / 60% auto no-repeat;
-  opacity: 0.48;          /* <-- only affects the image */
+  opacity: 0.78;          /* <-- only affects the image */
   pointer-events: none;
   z-index: 0;
 }
@@ -180,7 +182,7 @@ $text-muted: rgba(233, 238, 241, 0.72);
   z-index: 10;
   min-width: 0;
   // margin-top: 0rem;
-  padding-bottom: var(--padding-md);
+  padding-block: var(--padding-md);
   min-width: 100%;
   max-height: 80vh;
   overflow: auto;
@@ -424,12 +426,12 @@ $text-muted: rgba(233, 238, 241, 0.72);
 
 .topics-list {
   position: relative;
-  margin-top: 1rem;
+  // margin-top: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  padding-block: var(--padding-md);
+  gap: 0.95rem;
+  padding-block: var(--padding);
 
   /* Firefox */
   scrollbar-width: thin;
@@ -444,14 +446,13 @@ $text-muted: rgba(233, 238, 241, 0.72);
 
 .topic-card {
   width: 100%;
-  max-width: 800px;
+  max-width: 600px;
   border-radius: 18px;
   cursor: pointer;
   background-color: transparent;
 
   gap: 1.95rem;
   align-items: center;
-  padding: .5rem;
   transition: transform .14s ease, background .14s ease, border-color .14s ease;
 
   @media (max-width: 680px) {
@@ -472,7 +473,6 @@ $text-muted: rgba(233, 238, 241, 0.72);
   }
 
   .topic__body {
-    background-color: var(--primary-dark);
     padding: var(--padding-md);
     border-radius: var(--radius-lg);
   }
@@ -627,6 +627,6 @@ $text-muted: rgba(233, 238, 241, 0.72);
       max-width: 70px;
     }
 
-    .muted { color: $text-muted; }
+    .muted { color: var(--text-card-green); }
   }
 }
