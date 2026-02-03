@@ -1,0 +1,24 @@
+<div class="cover" *ngIf="items.length" aria-label="Destaques">
+  <div class="cover_bg" [style.backgroundImage]="'url(' + bg + ')'"></div>
+  <div class="cover_shade"></div>
+
+  <div class="cover_title">
+    <span class="badge"><i class="bi bi-fire"></i> Em destaque</span>
+    <h3>{{ title }}</h3>
+
+    <app-button variant="outline" size="sm" [routerLink]="['/news', id]">
+      Abrir
+    </app-button>
+  </div>
+
+  <div class="cover_dots" aria-label="Selecionar destaque">
+    <button
+      class="dot"
+      type="button"
+      *ngFor="let _ of items; let i = index"
+      [class.dot--on]="i === active"
+      (click)="setActive(i)"
+      [attr.aria-label]="'Ir para destaque ' + (i + 1)"
+    ></button>
+  </div>
+</div>

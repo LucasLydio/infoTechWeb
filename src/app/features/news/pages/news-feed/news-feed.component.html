@@ -1,89 +1,105 @@
-<section class="nf">
-  <header class="hero">
-    <div class="hero__left">
-      <h1>
-        Notícias da <span class="accent">Info Tech GO</span>
-      </h1>
-      <h2 class="subtitle">
-        Conecte-se, compartilhe conhecimento e acompanhe discussões relevantes.
-      </h2>
+<section class="page">
+  <!-- 1) narrow header -->
+  <header class="head">
+    <div class="head_txt">
+      <h2>Se atualize, descubra e explore</h2>
+      <p>Notícias curtas, diretas e úteis — com uma leitura limpa.</p>
     </div>
 
-    <div class="hero__right">
-      <app-card class="heroCard" id="heroCard2">
-        <div class="heroCard__title">
-          <strong> Notícias da <span class="accent">Info Tech GO</span></strong>
-        </div>
-        <p class="heroCard__text">
-          Conecte-se, compartilhe conhecimento e acompanhe discussões relevantes.
-        </p>
-      </app-card>
-      <div class="heroCard__img">
-        <img src="/assets/img/infoForum12.png" alt="forum">
-      </div>
-    </div>
+    <app-devicon-ticker class="head_ticker" [items]=this.items duration="18s"></app-devicon-ticker>
   </header>
 
-  <!-- Toolbar -->
-  <app-news-toolbar
-    [searchCtrl]="searchCtrl"
-    [sortCtrl]="sortCtrl"
-    (refresh)="refresh()"
-  ></app-news-toolbar>
+  <!-- controls (small + clean) -->
+  <div class="controls">
+    <div class="search">
+      <i class="bi bi-search"></i>
+      <input type="text" [formControl]="searchCtrl" placeholder="Buscar notícia…" />
+      <button class="clear" type="button" *ngIf="searchCtrl.value" (click)="searchCtrl.setValue('')">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
 
-  <div class="nf__grid">
-    <!-- Feed -->
-    <main class="nf__feed">
-      <div *ngIf="loading" class="nf__loading">
-        <app-skeleton *ngFor="let s of [1,2,3,4,5]"></app-skeleton>
+    <select class="select" [formControl]="sortCtrl" aria-label="Ordenar">
+      <option value="recent">Mais recentes</option>
+      <option value="popular">Mais populares</option>
+    </select>
+
+    <app-button variant="outline" size="sm" (click)="refresh()">
+      <i class="bi bi-arrow-clockwise"></i>
+      Atualizar
+    </app-button>
+  </div>
+
+  <div class="body">
+    <!-- 2) vertical news -->
+    <main class="feed" aria-label="Feed de notícias">
+      <!-- loading -->
+      <div class="state" *ngIf="loading">
+        <app-skeleton *ngFor="let s of [1,2,3,4]"></app-skeleton>
       </div>
 
-      <div *ngIf="!loading && errorMsg" class="nf__empty">
-        <div class="icon"><i class="bi bi-exclamation-triangle"></i></div>
-        <h3>Ops…</h3>
-        <p>{{ errorMsg }}</p>
+      <!-- error -->
+      <div class="state error" *ngIf="!loading && errorMsg">
+        <i class="bi bi-exclamation-triangle"></i>
+        <strong>{{ errorMsg }}</strong>
         <app-button variant="outline" size="sm" (click)="refresh()">Tentar novamente</app-button>
       </div>
 
-      <div *ngIf="!loading && !errorMsg && !hasResults()" class="nf__empty">
-        <div class="icon"><i class="bi bi-newspaper"></i></div>
-        <h3>Nenhuma notícia encontrada</h3>
-        <p>Tente ajustar a busca ou publique a primeira atualização.</p>
-        <app-button variant="primary" size="sm" routerLink="/news/new">
-          <i class="bi bi-plus-circle"></i> Publicar notícia
-        </app-button>
+      <!-- empty -->
+      <div class="state" *ngIf="!loading && !errorMsg && !hasResults()">
+        <i class="bi bi-newspaper"></i>
+        <strong>Nenhuma notícia encontrada</strong>
+        <span>Tente outro termo ou altere a ordenação.</span>
       </div>
 
-      <div class="nf__list" *ngIf="!loading && !errorMsg && hasResults()">
-        <app-news-item
-          *ngFor="let n of view; trackBy: trackById"
-          [news]="n"
-          (open)="open(n)"
-          (like)="like(n, $event)"
-        ></app-news-item>
+      <!-- list -->
+      <div class="news" *ngFor="let n of view; trackBy: trackById" (click)="open(n)">
+        <app-card class="card" variant="ghost">
+          <div class="card_img">
+            <img [src]="n.cover_url || '/assets/img/infoForum11.png'" [alt]="n.title" loading="lazy" />
+          </div>
+
+          <div class="card_body">
+            <small class="meta">{{ n.created_at | date:'dd/MM • HH:mm' }}</small>
+            <h3 class="title">{{ n.title }}</h3>
+
+            <p class="text">{{ n.body }}</p>
+
+            <div class="actions">
+              <app-button variant="outline" size="sm" (click)="open(n); $event.stopPropagation()">
+                Saiba mais <i class="bi bi-arrow-right"></i>
+              </app-button>
+
+              <button class="like" type="button" (click)="like(n, $event)">
+                <i class="bi bi-hand-thumbs-up"></i>
+                <span>{{ n.like ?? 0 }}</span>
+              </button>
+            </div>
+          </div>
+        </app-card>
+
+        <hr class="sep" />
       </div>
 
-      <nav class="nf__pager" *ngIf="!loading && totalPages > 1">
-        <app-button variant="outline" size="sm" (click)="prevPage()" [disabled]="page === 1">
+      <!-- pagination -->
+      <div class="pager" *ngIf="!loading && !errorMsg && totalPages > 1">
+        <app-button variant="outline" size="sm" (click)="prevPage()" [disabled]="page <= 1">
           <i class="bi bi-chevron-left"></i>
         </app-button>
-        <span class="nf__pagerLabel">Página <strong>{{ page }}</strong> / {{ totalPages }}</span>
-        <app-button variant="outline" size="sm" (click)="nextPage()" [disabled]="page === totalPages">
+
+        <span class="pager_txt">Página <strong>{{ page }}</strong> de {{ totalPages }}</span>
+
+        <app-button variant="outline" size="sm" (click)="nextPage()" [disabled]="page >= totalPages">
           <i class="bi bi-chevron-right"></i>
         </app-button>
-      </nav>
+      </div>
     </main>
 
-    <!-- Sidebar -->
-    <aside class="nf__side">
-      <app-news-highlights [items]="news"></app-news-highlights>
-
-      <app-card class="tipCard">
-        <h3 class=" ">Boas práticas</h3>
-        <p class=" ">
-          Prefira títulos claros. Explique impacto e próximos passos. Evite dados sensíveis.
-        </p>
-      </app-card>
+    <!-- 3) right sticky carousel -->
+    <aside class="side" aria-label="Destaques">
+      <div class="sticky" *ngIf="covers.length">
+        <app-news-cover-carousel [items]="covers" [intervalMs]="7000"></app-news-cover-carousel>
+      </div>
     </aside>
   </div>
 </section>

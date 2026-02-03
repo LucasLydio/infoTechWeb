@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TopicsListComponent } from './topics-list/topics-list.component';
-import { TopicDetailsComponent } from './topic-details/topic-details.component';
+import { TopicsListComponent } from './pages/topics-list/topics-list.component';
+import { TopicDetailsComponent } from './pages/topic-details/topic-details.component';
 import { TopicCreateComponent } from './topic-create/topic-create.component';
 import { SharedModule } from '../../shared/shared.module';
 

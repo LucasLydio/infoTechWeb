@@ -1,100 +1,170 @@
-<section class="nd mt-2">
-  <header class="nd__top">
-    <app-button variant="outline" size="sm" type="button" (click)="back()">
-      <i class="bi bi-arrow-left"></i> Voltar
-    </app-button>
+<section class="page">
+  <!-- Loading -->
+  <div class="state" *ngIf="loading">
+    <app-skeleton *ngFor="let s of [1,2,3]"></app-skeleton>
+  </div>
 
-    <div class="nd__topRight" *ngIf="news">
-      <span class="mini"><i class="bi bi-clock"></i> {{ news.created_at | date:'dd/MM/yyyy • HH:mm' }}</span>
+  <!-- Error -->
+  <div class="state error" *ngIf="!loading && errorMsg">
+    <i class="bi bi-exclamation-triangle"></i>
+    <strong>{{ errorMsg }}</strong>
+    <div class="row">
+      <app-button variant="outline" size="sm" (click)="back()">Voltar</app-button>
+      <app-button variant="primary" size="sm" (click)="fetch()">Tentar novamente</app-button>
     </div>
-  </header>
-
-  <div *ngIf="loading" class="nd__loading">
-    <app-skeleton *ngFor="let s of [1,2,3,4]"></app-skeleton>
   </div>
 
-  <div *ngIf="!loading && errorMsg" class="nd__empty">
-    <div class="icon"><i class="bi bi-exclamation-triangle"></i></div>
-    <h3>Ops…</h3>
-    <p>{{ errorMsg }}</p>
-    <app-button variant="outline" size="sm" (click)="fetch()">Tentar novamente</app-button>
-  </div>
+  <!-- Content -->
+  <ng-container *ngIf="!loading && !errorMsg && news as n">
+    <!-- Hero -->
+    <header class="hero">
+      <div
+        class="hero_bg"
+        [style.backgroundImage]="'url(' + (n.cover_url || '/assets/img/infoForum.png') + ')'"
+        aria-hidden="true"
+      ></div>
+      <div class="hero_shade" aria-hidden="true"></div>
+    </header>
 
-  <ng-container *ngIf="!loading && !errorMsg && news">
-    <app-card class="nd__card">
-      <div class="nd__tagRow">
-        <span class="tag"><i class="bi bi-newspaper"></i> News</span>
-        <div class="stats">
-          <span><i class="bi bi-eye"></i> {{ news.view }}</span>
-          <span><i class="bi bi-heart"></i> {{ news.like }}</span>
-        </div>
-      </div>
+    <!-- Body + sidebar -->
+    <div class="wrap">
+      <main class="main">
+        <div class="box" variant="ghost">
+          <div class="content">
+            <div class="body">
+              <span class="meta">
+                <i class="bi bi-calendar3"></i>
+                {{ n.created_at | date:'dd/MM/yyyy • HH:mm' }}
+              </span>
 
-      <h1 class="nd__title">{{ news.title }}</h1>
-      <p class="nd__body">{{ news.body }}</p>
+              <h1 class="title">{{ n.title }}</h1>
+              <p class="body my-2">{{ n.body }}</p>
 
-      <div class="nd__actions">
-        <app-button variant="primary" size="md" type="button" (click)="like()" [disabled]="liking">
-          <i class="bi bi-heart-fill"></i> Curtir
-        </app-button>
-      </div>
-    </app-card>
+              <div class="actions">
+                <app-button variant="outline" size="sm" (click)="back()">
+                  <i class="bi bi-arrow-left"></i>
+                </app-button>
 
-    <app-card class="nd__replyCard">
-      <div class="replyHead">
-        <h2>Comentários</h2>
-        <span class=" ">Compartilhe feedback ou dúvidas</span>
-      </div>
+                <app-button variant="outline" size="sm" (click)="like()">
+                  <i class="bi bi-hand-thumbs-up"></i>
+                  Curtir
+                </app-button>
+              </div>
 
-      <form [formGroup]="form" (ngSubmit)="submitReply()" class="replyForm">
-        <textarea
-          class="textarea"
-          rows="4"
-          formControlName="body"
-          placeholder="Escreva um comentário…"
-        ></textarea>
-
-        <div class="replyMeta">
-          <span class="err" *ngIf="bodyCtrl?.touched && bodyCtrl?.invalid">Mínimo 2 caracteres.</span>
-          <span class="ok" *ngIf="replyOk"><i class="bi bi-check2-circle"></i> {{ replyOk }}</span>
-          <span class="err" *ngIf="replyError"><i class="bi bi-exclamation-circle"></i> {{ replyError }}</span>
-        </div>
-
-        <div class="replyActions">
-          <app-button variant="primary" size="md" type="submit" [loading]="replying" [disabled]="replying || form.invalid">
-            <i class="bi bi-send"></i> Comentar
-          </app-button>
-        </div>
-      </form>
-
-      <div class="replies" *ngIf="replies.length > 0; else emptyReplies">
-        <div class="reply" *ngFor="let r of replies; trackBy: trackReply">
-          <div class="replyTop">
-            <app-user-avatar [src]="r.user?.avatar_url" [name]="r.user?.name" [size]="34"></app-user-avatar>
-            <div class="replyMeta2">
-              <strong>{{ r.user?.name || 'Usuário' }}</strong>
-              <span class=" ">{{ r.created_at | date:'dd/MM • HH:mm' }}</span>
             </div>
           </div>
-          <p class="replyBody">{{ replyPreview(r) }}</p>
         </div>
-      </div>
 
-      <ng-template #emptyReplies>
-        <div class="nd__emptyMini">
-          <p class=" ">Ainda não há comentários. Seja o primeiro!</p>
+        <!-- Replies -->
+        <div class="box" variant="ghost">
+          <div class="box_head">
+            <strong>Comentários</strong>
+            <span class="muted">{{ replies.length }} nesta página</span>
+          </div>
+
+          <form class="form" [formGroup]="form" (ngSubmit)="submitReply()">
+            <textarea
+              class="txt"
+              formControlName="body"
+              placeholder="Escreva um comentário…"
+              rows="4"
+            ></textarea>
+
+            <div class="form_bar">
+              <small class="err" *ngIf="bodyCtrl?.touched && bodyCtrl?.invalid">
+                Mín. 2 e máx. 1200 caracteres.
+              </small>
+
+              <div class="form_actions">
+                <span class="ok" *ngIf="replyOk">{{ replyOk }}</span>
+                <span class="err" *ngIf="replyError">{{ replyError }}</span>
+
+                <app-button variant="outline" size="sm" type="submit" [disabled]="replying">
+                  {{ replying ? 'Enviando…' : 'Publicar' }}
+                </app-button>
+              </div>
+            </div>
+          </form>
+
+          <div class="list" *ngIf="replies.length; else noReplies">
+            <div class="reply" *ngFor="let r of replies; trackBy: trackReply">
+              <div class="reply_head">
+                <div class="avatar">
+                  <img
+                    [src]="r.user?.avatar_url || '/assets/img/foxForum.webp'"
+                    [alt]="r.user?.name || 'Usuário'"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="who">
+                  <strong>{{ r.user?.name || 'Usuário' }}</strong>
+                  <small class="muted">{{ r.created_at | date:'dd/MM • HH:mm' }}</small>
+                </div>
+              </div>
+
+              <p class="reply_body">{{ replyPreview(r) }}</p>
+            </div>
+
+            <div class="pager" *ngIf="repliesTotalPages > 1">
+              <app-button variant="outline" size="sm" (click)="prevReplies()" [disabled]="repliesPage <= 1">
+                <i class="bi bi-chevron-left"></i>
+              </app-button>
+
+              <span class="muted">Página <strong>{{ repliesPage }}</strong> / {{ repliesTotalPages }}</span>
+
+              <app-button
+                variant="outline"
+                size="sm"
+                (click)="nextReplies()"
+                [disabled]="repliesPage >= repliesTotalPages"
+              >
+                <i class="bi bi-chevron-right"></i>
+              </app-button>
+            </div>
+          </div>
+
+          <ng-template #noReplies>
+            <div class="empty">
+              <i class="bi bi-chat-square-dots"></i>
+              <strong>Sem comentários ainda</strong>
+              <span>Seja o primeiro a comentar.</span>
+            </div>
+          </ng-template>
         </div>
-      </ng-template>
+      </main>
 
-      <nav class="replyPager" *ngIf="repliesTotalPages > 1">
-        <app-button variant="outline" size="sm" (click)="prevReplies()" [disabled]="repliesPage === 1">
-          <i class="bi bi-chevron-left"></i>
-        </app-button>
-        <span class=" ">Página <strong>{{ repliesPage }}</strong> / {{ repliesTotalPages }}</span>
-        <app-button variant="outline" size="sm" (click)="nextReplies()" [disabled]="repliesPage === repliesTotalPages">
-          <i class="bi bi-chevron-right"></i>
-        </app-button>
-      </nav>
-    </app-card>
+      <aside class="side">
+        <div class="sticky">
+          <app-card class="mini2" variant="ghost">
+            <div class="mini_head">
+              <i class="bi bi-lightning-charge"></i>
+              <strong>Ações rápidas</strong>
+            </div>
+
+            <div class="mini_actions">
+              <app-button variant="outline" size="sm" (click)="back()">
+                <i class="bi bi-arrow-left"></i>
+                Voltar ao feed
+              </app-button>
+
+              <app-button variant="outline" size="sm" (click)="like()">
+                <i class="bi bi-hand-thumbs-up"></i>
+                Curtir
+              </app-button>
+            </div>
+          </app-card>
+
+          <app-card class="mini" variant="ghost">
+            <div class="mini_head">
+              <i class="bi bi-chat-dots"></i>
+              <strong>Dica</strong>
+            </div>
+            <p class="muted">
+              Comentários curtos e claros ajudam mais. Cite o ponto exato e proponha um caminho.
+            </p>
+          </app-card>
+        </div>
+      </aside>
+    </div>
   </ng-container>
 </section>

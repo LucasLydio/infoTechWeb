@@ -40,20 +40,24 @@
 
 .heroCard {
   background-color: var(--bg-white);
-  padding: var(--padding-lg);
+  padding: var(--padding-md);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color-accent);
 }
 
 
 .hero-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: var(--padding);
     background-color: var(--bg-white);
-    border-radius: var(--radius-pill);
+    border-radius: 50%;
+    width: 240px;
+    height: 240px;
   img {
-    width: 100%;
-    height: auto;
     max-width: 250px;
+    height: auto;
     pointer-events: none;
   }
 }
@@ -78,13 +82,13 @@
 
 .title {
   margin: 0.6rem 0 0.75rem;
-  font-size: clamp(1.3rem, 4vw, 2.2rem) !important;
+  font-size: clamp(1.3rem, 4vw, 1.7rem) !important;
   line-height: 1.08;
   letter-spacing: -0.6px;
 
   .accent {
     color: var(--accent);
-    text-shadow: 0 0 18px var(--accent);
+    text-shadow: 0 0 8px var(--accent);
   }
 }
 
@@ -138,7 +142,7 @@
 }
 
 .carousel {
-  margin: 1.25rem 0 0.75rem;
+  margin: 1.55rem 0 0.75rem;
   border-radius: 18px;
   border: 1px solid var(--border-color);
   background: var(--bg-white);
@@ -280,13 +284,13 @@
 
       border-radius: 14px;
       border: 1px solid var(--border-color-accent);
-      box-shadow: var(--shadow-soft);
+      // box-shadow: var(--shadow-soft);
       background-color: var(--bg-white);
 
       i {
         font-size: 1rem;
         opacity: 0.9;
-        color: var(--primary);
+        color: var(--color-icon);
       }
 
       strong {

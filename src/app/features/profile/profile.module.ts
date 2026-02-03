@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../../shared/shared.module';
-import { ProfileComponent } from './profile.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 import { ProfileRoutingModule } from './profile-routing.module';
 
 @NgModule({

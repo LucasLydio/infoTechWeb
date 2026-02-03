@@ -3,7 +3,7 @@ import { AuthGuard } from './core/guards/auth/auth.guard';
 import { CanLoadGuard } from './core/guards/can-load/can-load.guard';
 
 export const routes: Routes = [
-  // Prefixo para tópicos
+
   {
     path: 'home',
     loadChildren: () =>
@@ -46,7 +46,7 @@ export const routes: Routes = [
       import('./features/auth/auth.module').then(m => m.AuthModule),
     canLoad: [CanLoadGuard]
   },
-  // Redirecione a raiz para /topics
+
   {
     path: '',
     redirectTo: 'home',

@@ -13,6 +13,8 @@ import { NewsToolbarComponent } from './components/news-toolbar/news-toolbar.com
 import { NewsItemComponent } from './components/news-item/news-item.component';
 import { NewsHighlightsComponent } from './components/news-highlights/news-highlights.component';
 import { NewsSideComponent } from './components/news-side/news-side.component';
+import { DeviconTickerComponent } from './components/devicon-ticker/devicon-ticker.component';
+import { NewsCoverCarouselComponent } from './components/news-cover-carousel/news-cover-carousel.component';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { NewsSideComponent } from './components/news-side/news-side.component';
     NewsItemComponent,
     NewsHighlightsComponent,
     NewsSideComponent,
+    DeviconTickerComponent,
+    NewsCoverCarouselComponent,
   ],
   imports: [
     CommonModule,

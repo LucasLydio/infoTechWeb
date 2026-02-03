@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { PrivateMessagesService } from '../../../core/services/messages/messages.service';
+import { PrivateMessagesService } from '../../../../core/services/messages/messages.service';
 
 type Mailbox = 'inbox' | 'sent';
 

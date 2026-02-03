@@ -11,6 +11,7 @@ export interface News {
   created_at: string;
   like: number;
   view: number;
+  cover_url?: string;
 }
 
 export interface NewsReply {

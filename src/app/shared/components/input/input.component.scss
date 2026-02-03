@@ -19,21 +19,12 @@
     }
   }
   .form-input {
-    // width: 100%;
     max-width: 400px;
     padding: 10px 13px;
     font-size: 1rem;
     border-radius: 1rem;
-    border: 1.4px solid #dae8e8;
     background: var(--bg-white);
     outline: none;
-    transition: border .15s;
-    &:focus {
-      border: 1.7px solid $accent;
-    }
-    &.invalid {
-      border: 1.5px solid #f67c7c;
-    }
   }
   .error {
     color: #f67c7c;

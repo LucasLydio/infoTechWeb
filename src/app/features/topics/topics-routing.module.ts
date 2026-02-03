@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TopicsListComponent } from './topics-list/topics-list.component';
-import { TopicDetailsComponent } from './topic-details/topic-details.component';
+import { TopicsListComponent } from './pages/topics-list/topics-list.component';
+import { TopicDetailsComponent } from './pages/topic-details/topic-details.component';
 import { TopicCreateComponent } from './topic-create/topic-create.component';
 import { AuthGuard } from '../../core/guards/auth/auth.guard';
 import { CanLoadGuard } from '../../core/guards/can-load/can-load.guard';

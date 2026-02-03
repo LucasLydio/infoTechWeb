@@ -1,0 +1,152 @@
+<section class="page">
+  <!-- Loading -->
+  <div class="state" *ngIf="loading">
+    <app-skeleton *ngFor="let s of [1,2,3]"></app-skeleton>
+  </div>
+
+  <!-- Content -->
+  <ng-container *ngIf="!loading && topic as t">
+    <!-- Hero -->
+    <header class="hero">
+      <div class="hero_left">
+        <span class="pill">
+          <i class="bi bi-chat-dots"></i>
+          Discussão
+        </span>
+
+        <h2 class="title">{{ t.title }}</h2>
+
+        <div class="box">
+          <p class="body">{{ t.body }}</p>
+        </div>
+
+        <div class="meta">
+          <div class="avatar">
+            <img [src]="t.user?.avatar_url || '/assets/img/foxForum.webp'" [alt]="t.user?.name || 'Usuário'" />
+          </div>
+          <small class="meta_item">
+            {{ t.user?.name || 'Usuário' }}
+          </small>
+          <span class="dot">•</span>
+          <small class="meta_item">
+            <i class="bi bi-calendar3"></i> {{ t.created_at | date:'dd/MM • HH:mm' }}
+          </small>
+        </div>
+      </div>
+
+      <div class="hero_actions">
+        <app-button variant="outline" size="sm" routerLink="/topics">
+          <i class="bi bi-arrow-left"></i> Voltar
+        </app-button>
+
+        <app-button variant="primary" size="sm" (click)="replyBox.scrollIntoView({ behavior: 'smooth' })">
+          <i class="bi bi-reply"></i> Responder
+        </app-button>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <!-- Main -->
+      <main class="main">
+
+        <div class="box" >
+          <div class="box_head">
+            <strong>Respostas</strong>
+            <span class="muted">{{ replies.length }}</span>
+          </div>
+
+          <!-- Reply form -->
+          <div #replyBox></div>
+          <form class="form" [formGroup]="replyForm" (ngSubmit)="submitReply()">
+            <textarea
+              class="txt"
+              rows="4"
+              formControlName="body"
+              placeholder="Escreva sua resposta…"
+            ></textarea>
+
+            <div class="bar">
+              <small class="err" *ngIf="replyForm.get('body')?.touched && replyForm.get('body')?.invalid">
+                Mínimo 3 caracteres.
+              </small>
+
+              <div class="actions">
+                <span class="err" *ngIf="errorMsg">{{ errorMsg }}</span>
+
+                <app-button variant="outline" size="sm" type="submit" [disabled]="sending">
+                  {{ sending ? 'Enviando…' : 'Publicar' }}
+                </app-button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Replies -->
+          <div class="list" *ngIf="replies.length; else empty">
+            <div class="reply" *ngFor="let r of replies">
+              <div class="reply_head">
+                <div class="avatar">
+                  <img [src]="r.user?.avatar_url || '/assets/img/foxForum.webp'" [alt]="r.user?.name || 'Usuário'" />
+                </div>
+
+                <div class="who">
+                  <strong>{{ r.user?.name || 'Usuário' }}</strong>
+                  <small class="muted">{{ r.created_at | date:'dd/MM • HH:mm' }}</small>
+                </div>
+              </div>
+
+              <p class="reply_body">{{ r.body }}</p>
+            </div>
+          </div>
+
+          <ng-template #empty>
+            <div class="empty">
+              <i class="bi bi-chat-square-dots"></i>
+              <strong>Sem respostas ainda</strong>
+              <span>Seja o primeiro a responder.</span>
+            </div>
+          </ng-template>
+        </div>
+      </main>
+
+      <!-- Side -->
+      <aside class="side">
+        <div class="sticky">
+          <app-card class="mini" variant="ghost">
+            <div class="mini_head">
+              <i class="bi bi-stars "></i>
+              <strong>Dica</strong>
+            </div>
+            <p class="muted">
+              Responda com contexto + solução. Se possível, adicione passos ou links úteis.
+            </p>
+          </app-card>
+
+          <div class="mini2" >
+            <div class="mini_head">
+              <i class="bi bi-activity"></i>
+              <strong>Status</strong>
+            </div>
+
+            <div class="stats">
+              <div class="stat">
+                <small class="k">Respostas</small>
+                <small class="v">{{ replies.length }}</small>
+              </div>
+              <div class="stat">
+                <small class="k">Autor</small>
+                <small class="v">{{ t.user?.name || 'Usuário' }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </ng-container>
+
+  <!-- Errors without topic -->
+  <div class="state error" *ngIf="!loading && !topic">
+    <i class="bi bi-exclamation-triangle"></i>
+    <strong>Não foi possível carregar este tópico.</strong>
+    <app-button variant="outline" size="sm" routerLink="/topics">Voltar</app-button>
+  </div>
+</section>

@@ -4,7 +4,8 @@
 
 body {
   margin: 0;
-  font-family: 'Inter', 'Montserrat', sans-serif;
+  // font-family: 'Montserrat', sans-serif;
+  font-family: "Delius", cursive, sans-serif;
 }
 
 .only-desktop {
@@ -32,7 +33,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p, li {
-  font-size: .8rem !important;
+  font-size: .9rem !important;
   font-weight: 300;
   color: var(--color-text-light) !important;
 }
@@ -56,15 +57,17 @@ select {
   width: 100%;
   padding-inline: var(--padding);
   border-radius: 8px;
-  border: 1px solid var(--border-color-accent) !important;
+  border: none;
   color: var(--color-text-light) !important;
-  font-size: 1rem;
   background: var(--bg-white) !important;
-  box-shadow: var(--shadow-lg);
   transition: all 0.25s ease;
 
+  &:focus {
+    outline: none;
+  }
+
   i {
-    color: var(--color-text) !important;
+    color: var(--color-text);
   }
   &::placeholder {
     color: var(--color-text) !important;

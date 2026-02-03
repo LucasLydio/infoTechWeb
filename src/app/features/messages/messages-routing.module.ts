@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InboxComponent } from './inbox/inbox.component';
-import { SendComponent } from './send/send.component';
+import { InboxComponent } from './components/inbox/inbox.component';
+import { SendComponent } from './components/send/send.component';
 
 const routes: Routes = [
   { path: 'inbox', component: InboxComponent },

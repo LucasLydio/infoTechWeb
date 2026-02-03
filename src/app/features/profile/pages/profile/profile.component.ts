@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { UsersService } from '../../core/services/users/users.service';
-import { User } from '../../shared/models/user.model';
-import { AuthService } from '../../core/services/auth/auth.service';
+import { UsersService } from '../../../../core/services/users/users.service';
+import { User } from '../../../../shared/models/user.model';
+import { AuthService } from '../../../../core/services/auth/auth.service';
 
 type ViewState = 'loading' | 'ready' | 'error';
 

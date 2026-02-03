@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UsersService } from '../../../core/services/users/users.service';
+import { UsersService } from '../../../../core/services/users/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PrivateMessagesService } from '../../../core/services/messages/messages.service';
+import { PrivateMessagesService } from '../../../../core/services/messages/messages.service';
 
 @Component({
   selector: 'app-send',

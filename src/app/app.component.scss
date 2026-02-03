@@ -145,7 +145,7 @@ $bp: 1110px;
       color: var(--color-text);
       background: var(--primary-hover);
       border: 1px solid var(--primary-hover);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+      box-shadow: var(--shadow-soft);
       font-weight: 500;
     }
 
@@ -164,7 +164,7 @@ $bp: 1110px;
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background-color: var(--bg-light);
+  background-color: var(--bg-white);
   box-shadow: var(--shadow-soft);
   border: 1px solid var(--border-color-accent);
   color: var(--color-text);
@@ -180,7 +180,7 @@ $bp: 1110px;
   &:focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 2px; }
 
   i { font-size: 1.2rem;
-  background-color: var(--bg-light) !important; }
+  background-color: var(--bg-white) !important; }
 }
 
 /* Mobile drawer */

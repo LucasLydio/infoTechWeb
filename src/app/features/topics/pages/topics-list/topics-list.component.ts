@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Topic } from '../../../shared/models/topic.model';
-import { TopicsService } from '../../../core/services/topics/topics.service';
+import { Topic } from '../../../../shared/models/topic.model';
+import { TopicsService } from '../../../../core/services/topics/topics.service';
 
 type SortKey = 'recent' | 'oldest' | 'title';
 
@@ -17,12 +17,12 @@ export class TopicsListComponent implements OnInit {
   loadingMore = false;
   filtersOpen = false;
 
-  // pagination
+
   currentPage = 1;
   totalPages = 1;
   pageSize = 10;
 
-  // UI controls
+
   query = '';
   sort: SortKey = 'recent';
 
@@ -32,7 +32,7 @@ export class TopicsListComponent implements OnInit {
     this.fetchTopics(1);
   }
 
-  /** Load first page (replace feed) */
+
   fetchTopics(page: number = 1): void {
     this.loading = true;
 
@@ -53,7 +53,7 @@ export class TopicsListComponent implements OnInit {
     });
   }
 
-  /** Feed: append next page */
+
   loadMore(): void {
     if (this.loadingMore) return;
     if (this.currentPage >= this.totalPages) return;
@@ -66,7 +66,7 @@ export class TopicsListComponent implements OnInit {
       next: (res) => {
         const newItems = res.data ?? [];
 
-        // append without duplicates
+
         const seen = new Set(this.topics.map((t) => t.id));
         for (const t of newItems) {
           if (!seen.has(t.id)) this.topics.push(t);
@@ -88,12 +88,12 @@ export class TopicsListComponent implements OnInit {
     this.router.navigate(['/topics', topic.id]);
   }
 
-  /** When page size changes, restart feed */
+
   changePageSize(): void {
     this.fetchTopics(1);
   }
 
-  /** Search/sort: keep client-side, but now it applies to the accumulated feed */
+
   onSearch(): void {
     this.applyAll();
   }
@@ -112,7 +112,7 @@ export class TopicsListComponent implements OnInit {
 
     let list = [...this.topics];
 
-    // filter
+
     if (q) {
       list = list.filter((t) => {
         const title = (t.title ?? '').toLowerCase();
@@ -122,7 +122,7 @@ export class TopicsListComponent implements OnInit {
       });
     }
 
-    // sort
+
     if (this.sort === 'title') {
       list.sort((a, b) => (a.title ?? '').localeCompare(b.title ?? ''));
     } else if (this.sort === 'oldest') {

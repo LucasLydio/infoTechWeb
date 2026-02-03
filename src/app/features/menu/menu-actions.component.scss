@@ -87,13 +87,12 @@
         font-size: 1.3rem;
         min-width: 30px;
         text-align: center;
-        border: 1px solid var(--shadow-soft-white);
         color: var(--color-icon);
-        background-color: var(--bg-light);
-        border-radius:  var(--radius-pill);
+        padding: var(--padding);
+        background-color: var(--bg-white);
+        border-radius:  var(--radius-lg);
         box-shadow: var(--shadow-soft);
         border: 1px solid var(--border-color-accent);
-        padding: var(--padding);
       }
 
       .submenu {
@@ -101,7 +100,7 @@
         left: 60px;
         top: 0;
         border-radius:  var(--radius-pill);
-      background-color: var(--bg-light);
+        background-color: var(--bg-white);
         box-shadow: var(--shadow-soft);
         backdrop-filter: blur(8px);
         border-radius: 8px;
@@ -116,7 +115,7 @@
           color: var(--color-text);
           transition: all 0.1s ease;
           &:hover {
-            color: var(--border-color-accent);
+            color: var(--color-icon);
           }
         }
 
@@ -141,9 +140,10 @@
       gap: 1rem;
       padding: var(--padding);
       color: var(--color-icon);
-      border-radius:  var(--radius-pill);
-      background-color: var(--bg-light);
+      background-color: var(--bg-white);
+      border-radius:  var(--radius-lg);
       box-shadow: var(--shadow-soft);
+      border: 1px solid var(--border-color-accent);
 
       .logout, .profile {
         color: var(--color-icon);

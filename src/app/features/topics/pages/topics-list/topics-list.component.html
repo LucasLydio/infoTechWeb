@@ -1,0 +1,166 @@
+<section class="page">
+  <!-- Left: list + vertical tools -->
+  <div class="left">
+    <div class="wrap">
+      <!-- box 1: topics -->
+      <div class="box list">
+        <!-- Loading -->
+        <div *ngIf="loading" class="skeleton">
+          <app-skeleton *ngFor="let s of [1,2,3,4,5]"></app-skeleton>
+        </div>
+
+        <!-- Empty -->
+        <div *ngIf="!loading && filteredTopics.length === 0" class="empty">
+          <i class="bi bi-chat-square-dots"></i>
+          <strong>Nenhum tópico encontrado</strong>
+          <span *ngIf="query">Tente outro termo.</span>
+
+          <div class="empty_actions">
+            <app-button variant="outline" size="sm" (click)="clearSearch()" *ngIf="query">Limpar</app-button>
+            <app-button variant="primary" size="sm" routerLink="/topics/new">Criar tópico</app-button>
+          </div>
+        </div>
+
+        <!-- List -->
+        <div class="items" *ngIf="!loading && filteredTopics.length > 0">
+          <app-card
+            *ngFor="let topic of filteredTopics; trackBy: trackById"
+            class="topic"
+            role="button"
+            tabindex="0"
+            (click)="openTopic(topic)"
+            (keydown.enter)="openTopic(topic)"
+            (keydown.space)="$event.preventDefault(); openTopic(topic)"
+            variant="ghost"
+          >
+            <div class="topic_meta">
+              <span class="author">{{ topic.user?.name || 'Usuário' }}</span>
+              <span class="dot">•</span>
+              <span class="date">{{ topic.created_at | date:'dd/MM • HH:mm' }}</span>
+            </div>
+
+            <h3 class="title">{{ topic.title }}</h3>
+
+            <p class="preview">
+              {{ (topic.body ?? '').slice(0, 140) }}{{ (topic.body?.length ?? 0) > 140 ? '…' : '' }}
+            </p>
+
+            <!-- <div class="w-auto  img mt-2">
+              <img src="/assets/img/foxForum.webp" alt="forum-img" >
+            </div> -->
+
+            <span class="go">
+              <i class="bi bi-arrow-right"></i>
+            </span>
+
+            <hr class="w-75">
+          </app-card>
+
+          <div class="more">
+            <app-button
+              variant="outline"
+              size="md"
+              (click)="loadMore()"
+              [disabled]="loadingMore || currentPage >= totalPages"
+            >
+              <i class="bi" [ngClass]="loadingMore ? 'bi-arrow-repeat' : 'bi-chevron-down'"></i>
+              {{ currentPage >= totalPages ? 'Fim do feed' : (loadingMore ? 'Carregando...' : 'Ver mais') }}
+            </app-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- box 2: vertical toolbar -->
+      <div class="box tools " aria-label="Filtros e ações">
+        <button class="tool" type="button" title="Buscar" (click)="filtersOpen = true">
+          <i class="bi bi-search"></i>
+          <span>Procurar</span>
+        </button>
+
+        <button class="tool" type="button" title="Limpar" (click)="clearSearch()" *ngIf="query">
+          <i class="bi bi-x-lg"></i>
+          limpar
+        </button>
+
+        <div class="sep"></div>
+
+        <!-- <label class="lbl">
+          <span>Ordem</span>
+          <select class="select" [(ngModel)]="sort" (change)="applySort()">
+            <option value="recent">Recentes</option>
+            <option value="oldest">Antigos</option>
+            <option value="title">A–Z</option>
+          </select>
+        </label>
+
+        <label class="lbl">
+          <span>Por pág.</span>
+          <select class="select" [(ngModel)]="pageSize" (change)="changePageSize()">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="20">20</option>
+          </select>
+        </label> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: CTAs -->
+  <aside class="right">
+    <!-- box 3 -->
+     <div class="cta-stick">
+      <!-- box 4 -->
+      <app-card class="box cta" variant="ghost">
+        <div class="cta_head">
+          <i class="bi bi-lightning-charge text-warning"></i>
+          <strong>Melhore seu feed</strong>
+        </div>
+        <p>Busque por tema, autor ou palavra-chave para achar discussões melhores.</p>
+
+        <div class="searchMini">
+          <i class="bi bi-search"></i>
+          <app-input
+            class="searchMini_input"
+            type="text"
+            placeholder="Buscar…"
+            [(ngModel)]="query"
+            (input)="onSearch()"
+          />
+          <button *ngIf="query" class="searchMini_clear" type="button" (click)="clearSearch()">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </app-card>
+      <app-card class="box cta" variant="ghost">
+        <div class="cta_head">
+          <i class="bi bi-stars text-warning"></i>
+          <strong>Dica rápida</strong>
+        </div>
+        <p>Use título objetivo + contexto + o que você já tentou.</p>
+
+        <div class=" img mt-2">
+          <img src="/assets/img/infoForum8.png" alt="forum-img" width="300">
+        </div>
+      </app-card>
+
+     </div>
+  </aside>
+
+  <!-- simple mobile sheet for search -->
+  <div class="sheet-backdrop" *ngIf="filtersOpen" (click)="filtersOpen = false"></div>
+  <div class="sheet" [class.open]="filtersOpen">
+    <div class="sheet_head">
+      <strong>Buscar</strong>
+      <button class="icon" type="button" (click)="filtersOpen = false"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="searchMini">
+      <i class="bi bi-search"></i>
+      <app-input
+      class="searchMini_input"
+      type="text" placeholder="Buscar por título, conteúdo ou autor…" [(ngModel)]="query" (input)="onSearch()" />
+      <button *ngIf="query" class="searchMini_clear" type="button" (click)="clearSearch()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+  </div>
+</section>

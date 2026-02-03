@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Topic } from '../../../shared/models/topic.model';
-import { Reply } from '../../../shared/models/reply.model';
+import { Topic } from '../../../../shared/models/topic.model';
+import { Reply } from '../../../../shared/models/reply.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RepliesService } from '../../../core/services/replies/replies.service';
-import { TopicsService } from '../../../core/services/topics/topics.service';
+import { RepliesService } from '../../../../core/services/replies/replies.service';
+import { TopicsService } from '../../../../core/services/topics/topics.service';
 
 @Component({
   selector: 'app-topic-details',

@@ -1,0 +1,16 @@
+<div class="ticker" aria-label="Tecnologias">
+  <div class="ticker__track" [style.animationDuration]="duration">
+    <ng-container *ngFor="let it of items">
+      <span class="ticker__item" [title]="it.name">
+        <img [src]="it.src" [alt]="it.name" loading="lazy" />
+      </span>
+    </ng-container>
+
+    <!-- duplicado para loop infinito -->
+    <ng-container *ngFor="let it of items">
+      <span class="ticker__item" [title]="it.name">
+        <img [src]="it.src" [alt]="it.name" loading="lazy" />
+      </span>
+    </ng-container>
+  </div>
+</div>
